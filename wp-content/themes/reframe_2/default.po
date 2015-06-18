@@ -1,0 +1,1093 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Reframe Wordpress Theme\n"
+"POT-Creation-Date: 2013-08-26 11:47-0500\n"
+"PO-Revision-Date: 2013-08-26 11:48-0500\n"
+"Last-Translator: mertdaglaroglu@gmail.com <mertdaglaroglu@gmail.com>\n"
+"Language-Team: Northeme <support@notheme.com>\n"
+"Language: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;_e;_x;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: 404.php:9
+msgid "OOPS..."
+msgstr ""
+
+#: 404.php:11
+msgid ""
+"Sorry... but the page you requested could not be found. <br />Perhaps "
+"searching will help."
+msgstr ""
+
+#: 404.php:22
+msgid "Recent blog posts"
+msgstr ""
+
+#: author.php:70
+msgid "Author Archives"
+msgstr ""
+
+#: author.php:88 functions.php:951
+msgid "LOAD MORE"
+msgstr ""
+
+#: comments.php:3
+msgid ""
+"This post is password protected. In order to view any comments please enter "
+"the password."
+msgstr ""
+
+#: comments.php:10
+msgid "(1) COMMENT"
+msgstr ""
+
+#: comments.php:25
+msgid "Comments are closed."
+msgstr ""
+
+#: comments.php:35
+msgid "LEAVE A REPLY"
+msgstr ""
+
+#: comments.php:36
+#, php-format
+msgid "LEAVE A REPLY to %s"
+msgstr ""
+
+#: footer.php:68
+msgid ""
+"<div class=\"credits\"><a href=\"http://northeme.com/themes/reframe\" target="
+"\"_blank\">Reframe</a> by <a href=\"http://northeme.com\" target=\"_blank"
+"\">Northeme</a>. <span class=\"wp\">Powered by <a href=\"http://wordpress.org"
+"\" target=\"_blank\">WordPress</a></span></div>"
+msgstr ""
+
+#: functions.php:860
+#, php-format
+msgid "%s"
+msgstr ""
+
+#: functions.php:863
+msgid " · (Edit)"
+msgstr ""
+
+#: functions.php:868
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: functions.php:889
+msgid ""
+"<span style=\"padding-top:6px;display:inline-block\">Password protected "
+"content. <a href=\"#\" onclick=\"jQuery('.pagepassform').show();jQuery(this)."
+"parent().hide();return false\">Click here to view.</a></span>"
+msgstr ""
+
+#: header.php:342
+msgid "Fullscreen"
+msgstr ""
+
+#: loop-item.php:59 loop-item.php:67
+msgid "Permalink to "
+msgstr ""
+
+#: loop-item.php:59 loop-item.php:67
+msgid "#"
+msgstr ""
+
+#: loop-item.php:199 single-blog-content.php:251
+msgid "No Comments"
+msgstr ""
+
+#: loop-item.php:199 single-blog-content.php:251
+msgid "<strong>(1)</strong> Comment"
+msgstr ""
+
+#: loop-item.php:199 single-blog-content.php:251
+msgid "<strong>(%)</strong> Comments"
+msgstr ""
+
+#: loop-item.php:205 single-blog-content.php:257
+msgid "by "
+msgstr ""
+
+#: loop-item.php:220 loop-search.php:57
+msgid "View"
+msgstr ""
+
+#: loop-search.php:11
+msgid "Blog"
+msgstr ""
+
+#: loop-search.php:13
+msgid "Page"
+msgstr ""
+
+#: search.php:31
+msgid "Search Results for"
+msgstr ""
+
+#: search.php:43 tag.php:47
+msgid "No results for"
+msgstr ""
+
+#: search.php:46
+msgid ""
+"Sorry, but nothing matched your search criteria. <br>Please try again with "
+"different keywords."
+msgstr ""
+
+#: single-blog-content.php:35 single-works-content.php:139
+msgid "BACK"
+msgstr ""
+
+#: single-blog-content.php:42 single-works-content.php:146
+msgid "NEXT"
+msgstr ""
+
+#: single-blog-content.php:287
+msgid "SHARE : "
+msgstr ""
+
+#: single-works-content.php:132
+msgid "All Projects"
+msgstr ""
+
+#: single-works-content.php:132
+msgid "HOME"
+msgstr ""
+
+#: tag.php:29
+#, php-format
+msgid "Tag : %s"
+msgstr ""
+
+#: tag.php:37
+msgid "NEXT <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: tag.php:50
+msgid ""
+"Sorry, but nothing matched with this tag. <br>Please try to use search "
+"form : "
+msgstr ""
+
+#: template-blog-content.php:77
+#, php-format
+msgid "Daily Archives: <span>%s</span>"
+msgstr ""
+
+#: template-blog-content.php:79
+#, php-format
+msgid "Monthly Archives: <span>%s</span>"
+msgstr ""
+
+#: template-blog-content.php:79
+msgid "F Y"
+msgstr ""
+
+#: template-blog-content.php:81
+#, php-format
+msgid "Yearly Archives: <span>%s</span>"
+msgstr ""
+
+#: template-blog-content.php:81
+msgid "Y"
+msgstr ""
+
+#: template-works-content.php:138
+msgid "SHOW ALL"
+msgstr ""
+
+#: framework/custom-metabox.php:30
+msgid "External URL"
+msgstr ""
+
+#: framework/custom-metabox.php:31
+msgid "Composition"
+msgstr ""
+
+#: framework/custom-metabox.php:32
+msgid "Additional Info &amp; Preferences"
+msgstr ""
+
+#: framework/custom-metabox.php:33
+msgid "Gallery Settings"
+msgstr ""
+
+#: framework/custom-metabox.php:36
+msgid "Slider / Gallery"
+msgstr ""
+
+#: framework/custom-metabox.php:37
+msgid "Quote"
+msgstr ""
+
+#: framework/custom-metabox.php:38
+msgid "Link"
+msgstr ""
+
+#: framework/custom-metabox.php:39
+msgid "Image"
+msgstr ""
+
+#: framework/custom-metabox.php:40
+msgid "Video"
+msgstr ""
+
+#: framework/custom-metabox.php:42
+msgid "Select Custom Post Type"
+msgstr ""
+
+#: framework/custom-metabox.php:78
+msgid ""
+"<span class=\"imghelp\" style=\"font-size:11px;line-height:17px; float:left; "
+"width:100%; display:none\"><strong>Images :</strong> Click to \"Add New Image"
+"\" button to upload image(s) or select an image from your WP image library. "
+"Adding multiple images is allowed and images/videos can be re-ordered once "
+"they've added to your project. <br>By default, images will be displayed up "
+"to <strong>1350px</strong> width in Full Width layout, and 840px width in "
+"Left Aligned layout at your project canvas. <br>\n"
+"\t\t\t\t\t\t\t\n"
+"\t\t\t\t\t\t\t<br><br><strong>Videos :</strong> Click to \"Add New Video\" "
+"button to add video embed code which is generated by video service website "
+"such as youtube, vimeo, dailymotion. <br>Embed video size will be ignored "
+"and your videos will be automatically stretched to your project canvas with "
+"preserved aspect ratio. <br><strong>NOTE :</strong> You MUST click update "
+"button to save all changes once you've added the project assets</span>"
+msgstr ""
+
+#: framework/custom-metabox.php:332
+msgid ""
+"<span class=\"imghelp\" style=\"font-size:11px;line-height:17px; float:left; "
+"width:100%; display:none\"><strong>Images :</strong> Click to \"Add New Image"
+"\" button to upload image(s) or select an image from your WP image library. "
+"Adding multiple images is allowed and images/videos can be re-ordered once "
+"they're added to your project. By default, images are displayed with "
+"<strong>880px</strong> maximum width in project canvas. <br>Smaller images "
+"than <strong>880px</strong> will be displayed in their original size as "
+"centered. <br>\n"
+"<strong style=\"color:#fd0d4d\">Important Note :</strong> If \"Remove side "
+"margins on single project pages\" option is enabled, you're be able to use "
+"940px image width instead of default 880px.\t\t\t\t\t\t\n"
+"\t\t\t\t\t\t\t<br><br><strong>Videos :</strong> Click to \"Add New Video\" "
+"button to add video embed code which is generated by video service website "
+"such as youtube, vimeo, dailymotion. Embed video size will be ignored and "
+"your videos will be automatically stretched to your project canvas with "
+"preserved aspect ratio. If you're using Gallery mode for your composition, "
+"you should add Vimeo or Youtube video URL instead of embed code.  \n"
+"\t\t\t\t\t\t\t<br><br><strong>Text :</strong> You can add text areas into "
+"your canvas. Rich text editor allows you to add shortcodes and style your "
+"text.\n"
+"\t\t\t\t\t\t\t<br><br><strong>Composition Type :</strong>  By default your "
+"images will be placed vertically with following order. Gallery type will "
+"create a gallery with following image and video content. If you selected "
+"\"Gallery\" type, \"Text\" items will be ignored.\t\n"
+"\t\t\t\t\t\t\t<br><br><strong>NOTE :</strong> You MUST click update button "
+"to save all changes once you've added the project assets\n"
+"\t\t\t\t\t\t\t\t\t\t\t\t\n"
+"\t\t\t\t\t\t\t</span>"
+msgstr ""
+
+#: framework/custom-metabox.php:359
+msgid ""
+"Add video embed code which is generated by video service website such as "
+"youtube, vimeo etc. Any video embed code will be accepted. <br>Also you "
+"don't need to worry about dimensions of your embeded code unless it's from "
+"Vimeo or Youtube. It will be stretched horizontally in your page with "
+"preserved aspect ratio."
+msgstr ""
+
+#: framework/custom-metabox.php:545 framework/custom-metabox.php:557
+#: framework/custom-metabox.php:586
+msgid "Remove"
+msgstr ""
+
+#: framework/custom-post-register.php:52 framework/tinymce/config.php:184
+#: framework/tinymce/config.php:265
+msgid "Title"
+msgstr ""
+
+#: framework/custom-post-register.php:53
+msgid "Description"
+msgstr ""
+
+#: framework/custom-post-register.php:54
+msgid "Fields"
+msgstr ""
+
+#: framework/custom-post-register.php:56
+msgid "Date"
+msgstr ""
+
+#: framework/custom-post-register.php:142
+#: framework/custom-post-register.php:143
+msgid "Add New "
+msgstr ""
+
+#: framework/custom-post-register.php:144
+msgid "Edit "
+msgstr ""
+
+#: framework/custom-post-register.php:145
+msgid "New "
+msgstr ""
+
+#: framework/custom-post-register.php:146
+msgid "View "
+msgstr ""
+
+#: framework/custom-post-register.php:147
+msgid "Search "
+msgstr ""
+
+#: framework/custom-post-register.php:148
+msgid "Not found"
+msgstr ""
+
+#: framework/custom-post-register.php:149
+msgid "Trash is empty"
+msgstr ""
+
+#: framework/custom-post-register.php:155
+msgid "Special type of post for creating "
+msgstr ""
+
+#: framework/widgets.php:4
+msgid "Blog Sidebar"
+msgstr ""
+
+#: framework/widgets.php:12
+msgid "Page Sidebar"
+msgstr ""
+
+#: framework/widgets.php:21
+msgid "Bottom 1"
+msgstr ""
+
+#: framework/widgets.php:30
+msgid "Bottom 2"
+msgstr ""
+
+#: framework/widgets.php:39
+msgid "Bottom 3"
+msgstr ""
+
+#: framework/widgets.php:48
+msgid "Bottom 4"
+msgstr ""
+
+#: framework/options/classes/class.options_machine.php:693
+msgid "Last Backup : "
+msgstr ""
+
+#: framework/options/classes/class.options_machine.php:797
+msgid "Upload"
+msgstr ""
+
+#: framework/options/front-end/options.php:51
+#: framework/options/front-end/options.php:75
+msgid "Save All Changes"
+msgstr ""
+
+#: framework/options/front-end/options.php:76
+msgid "Options Reset"
+msgstr ""
+
+#: framework/options/functions/functions.mediauploader.php:20
+msgid "Options"
+msgstr ""
+
+#: framework/options/functions/functions.mediauploader.php:210
+msgid "Gallery"
+msgstr ""
+
+#: framework/options/functions/functions.mediauploader.php:210
+msgid "Previously Uploaded"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:135
+msgid ""
+"This is your Custom Post Type generator. <br><br>To create a new post type, "
+"click on the <strong>Create New Post Type</strong> button and fill out the "
+"form. <br><br>\n"
+"<strong style=\"color:#cc0000\">Please note that all fields are required on "
+"Step 2 and Step 3. If you leave a field blank, your custom post type will "
+"NOT be saved!</strong><br><br>By default, Workality comes with "
+"<strong>works</strong> custom post type and it cannot be deleted but values "
+"can be changed."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:153
+msgid ""
+"You can re-order custom posts via drag&drop. Once you finished re-ordering, "
+"click on the SAVE ALL CHANGES button to save."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:185
+msgid "Transition Type"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:195
+msgid "Transition Speed"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:204
+#: framework/options/functions/functions.options.php:976
+#: framework/options/functions/functions.options.php:1041
+msgid "Slideshow Speed"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:205
+#: framework/options/functions/functions.options.php:1042
+msgid ""
+"Set the speed of the slideshow cycling, in milliseconds. E.g 7000 (for 7 "
+"seconds)"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:226
+msgid "Caption Placement"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:236
+msgid "Caption Text Alignment"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:253
+msgid "Color Presets"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:254
+msgid "You can select custom in order to create your color settings"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:441
+msgid "Remove Frame"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:442
+msgid ""
+"This theme uses a frame looking border to wrap your content by default. "
+"Activate this option in order to remove this frame."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:450
+msgid "Main Layout as Full Width"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:451
+msgid ""
+"This theme uses 2-column left aligned menu layout by default. Activate this "
+"option in order to use your website as full width."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:459
+msgid "Custom Post Page as Full Width"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:460
+msgid ""
+"This option allows you to use single custom post type post as full width "
+"while your main layout is default. Please note that, this option will be "
+"ignored if full width layout option above is activated."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:467
+msgid "Custom Post Single Page Info/Navigation Placement"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:468
+msgid ""
+"Single custom post pages display post info/navigation as a sidebar by "
+"default. This option allows you to change its placement as top or right. "
+"Please note that this option works if your main layout and custom post page "
+"is NOT set as full width."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:478
+msgid "Disable Fullscreen Feature"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:479
+msgid ""
+"This option allows you to remove the fullscreen icon on the top right of "
+"your website in default layout."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:489
+msgid "Disable Custom Post Type Transition Effects"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:490
+msgid ""
+"This option allows you to disable CSS transition effects on custom post type "
+"overview page."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:508
+msgid "Disable Left Menu Floating"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:509
+msgid ""
+"Left main menu follows when you're scrolling down. You can disable this "
+"feature"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:516
+msgid "Disable Single Project Info Floating"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:517
+msgid ""
+"Single project info follows when you're scrolling down. You can disable this "
+"feature"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:585
+msgid "Pagination Limit"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:586
+msgid "Set pagination limit of blog overview page. Default is 10"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:629
+msgid "Hide Post Navigation"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:630
+msgid "This option allows you to hide navigation arrows on sigle post pages."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:637
+msgid "Display Categories"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:638
+msgid ""
+"By default, categories are hidden on blog overview page. This option allows "
+"you to display blog categories at the top of your blog overview page."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:646
+msgid "Hide Blog Sidebar (Widgets)"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:647
+msgid ""
+"Blog widget sidebar will be displayed if blog info alignment setting above "
+"has been set as \"bottom\""
+msgstr ""
+
+#: framework/options/functions/functions.options.php:658
+msgid "Disable sidebar in blog posts"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:667
+msgid "Disable sidebar in single post"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:675
+msgid "Show Category"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:682
+msgid "Show Date"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:690
+msgid "Show Author info"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:697
+msgid "Show Comment Count"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:771
+msgid "Site Logo Image"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:772
+msgid "Upload your logo"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:779
+msgid "Site Logo Text"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:780
+msgid ""
+"You may prefer to use this text instead of your logo image. If logo image is "
+"present, this field will be ignored."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:795
+msgid "Site Header Text Area"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:796
+msgid ""
+"You may enter your slogan, contact information etc. HTML code is accepted."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:804
+msgid "Logo URL"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:805
+msgid ""
+"This option allows you to specify your logo URL. By default it's your "
+"wordpress root, however if you'd activate the Intro Slider as your homepage, "
+"you may prefer to use a different URL to prevent go back home slider"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:814
+msgid "Favicon"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:815
+msgid "Upload PNG format. Recommended size is 64px X 64px"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:823
+msgid "Footer Logo"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:824
+msgid ""
+"Upload a footer logo. Note that, It will appear only in left aligned layout."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:832
+msgid "Main Menu Styling"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:840
+msgid ""
+"This option allows you to override the styling of main menu. In order to use "
+"global font family (Fonts menu on the left), select \"Default\" option for "
+"font family."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:851
+msgid "Show Sub Menus Always"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:852
+msgid ""
+"This option allows you to show sub menus of <strong>the main left menu</"
+"strong> even though the parent menu is not currently active."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:859
+msgid "Disable Search Box"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:877
+msgid "Footer Text"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:886
+msgid "Disable Footer Widgets"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:894
+msgid "Footer Widgets Columns"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:895
+msgid "How many columns for footer widgets"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:915
+msgid "Header Font"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:916
+msgid ""
+"You can select header font via dropdown menu. <strong>500+</strong> google "
+"fonts are ready to use"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:925
+msgid "Body Font"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:926
+msgid ""
+"You can select body font via dropdown menu. <strong>500+</strong> google "
+"fonts are ready to use"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:935
+msgid "Use html fonts"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:936
+msgid ""
+"If you prefer to use HTML fonts instead of google fonts, enable this option "
+"and put your font styles into the text area below :"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:944
+msgid "Font styles. <br>E.g : \"Helvetica Neue\",Helvetica, Arial"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:977
+#: framework/options/functions/functions.options.php:1033
+msgid ""
+"Set the speed of the animation, in milliseconds. E.g 7000 (for 7 seconds)"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:985
+msgid "Slideshow Transition Speed"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:986
+msgid ""
+"Set the speed of the slideshow cycling, in milliseconds. E.g 1500 (for 1.5 "
+"seconds)"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:1022
+msgid "Slider animation type"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:1032
+msgid "Slideshow Animation Speed"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:1055
+msgid "Site Description"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:1056
+msgid "Your website's general description. Max 160 chars"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:1062
+msgid "Site Keywords"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:1063
+msgid ""
+"Your website keywords for SEO optimization. Seperate by comma. E.g. Design, "
+"Portfolio, Artist, Design Blog"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:1070
+msgid "Google Analytics Code"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:1071
+msgid "Simply paste your google analytics code to get statistics."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:1113
+msgid "Social Icons (Header and Footer)"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:1271
+msgid "Disable Retina Support"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:1272
+msgid "This option allows you to deactivate retina display support."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:1281
+msgid "Disable Ajax Navigation"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:1282
+msgid ""
+"By default, this theme is using ajax navigation for custom post type "
+"navigation, which allows to load content without refreshing the page. All "
+"ajax queries are improved for the best performance and optimized for the "
+"search engines. However, if you wish to disable ajax queries in order to "
+"load pages via traditional HTTP requests, you can activate this option."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:1290
+msgid "Custom CSS"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:1291
+msgid "This field allows you to add your custom css styles."
+msgstr ""
+
+#: framework/options/functions/functions.options.php:1314
+msgid "Move Custom Post Types"
+msgstr ""
+
+#: framework/options/functions/functions.options.php:1360
+msgid "Replace URLs"
+msgstr ""
+
+#: framework/SEO/seo.php:28 framework/SEO/seo.php:29 framework/SEO/seo.php:30
+msgid "SEO"
+msgstr ""
+
+#: framework/SEO/seo.php:65
+msgid "HTML Title"
+msgstr ""
+
+#: framework/SEO/seo.php:70
+msgid "Meta Description"
+msgstr ""
+
+#: framework/SEO/seo.php:74
+msgid "Keywords"
+msgstr ""
+
+#: framework/shortcodes/contact/contact-form.php:13
+msgid "Contact Form"
+msgstr ""
+
+#: framework/shortcodes/contact/contact-form.php:14
+msgid "Thank you for your message."
+msgstr ""
+
+#: framework/shortcodes/contact/contact-form.php:15
+msgid "Please try again."
+msgstr ""
+
+#: framework/shortcodes/contact/contact-form.php:31
+msgid "EMAIL"
+msgstr ""
+
+#: framework/shortcodes/contact/contact-form.php:34
+msgid "NAME"
+msgstr ""
+
+#: framework/shortcodes/contact/contact-form.php:37
+msgid "MESSAGE"
+msgstr ""
+
+#: framework/shortcodes/contact/contact-form.php:42
+msgid "SEND MESSAGE"
+msgstr ""
+
+#: framework/shortcodes/contact/contact-form.php:76
+msgid "Please enter your name"
+msgstr ""
+
+#: framework/shortcodes/contact/contact-form.php:77
+msgid "Please enter your message"
+msgstr ""
+
+#: framework/shortcodes/contact/contact-form.php:78
+msgid "Please enter a valid email address"
+msgstr ""
+
+#: framework/shortcodes/contact/contact-form.php:92
+msgid "Send Message"
+msgstr ""
+
+#: framework/tinymce/config.php:9
+msgid "Button URL"
+msgstr ""
+
+#: framework/tinymce/config.php:15 framework/tinymce/config.php:233
+msgid "Target"
+msgstr ""
+
+#: framework/tinymce/config.php:25
+msgid "Size"
+msgstr ""
+
+#: framework/tinymce/config.php:35
+msgid "Button's Style"
+msgstr ""
+
+#: framework/tinymce/config.php:48
+msgid "Button's Text"
+msgstr ""
+
+#: framework/tinymce/config.php:53
+msgid "Insert Button"
+msgstr ""
+
+#: framework/tinymce/config.php:63
+msgid "Address"
+msgstr ""
+
+#: framework/tinymce/config.php:64
+msgid "Your address"
+msgstr ""
+
+#: framework/tinymce/config.php:69
+msgid "Width"
+msgstr ""
+
+#: framework/tinymce/config.php:70
+msgid "It can be specified as px or %. Default value is 100%."
+msgstr ""
+
+#: framework/tinymce/config.php:75
+msgid "Height"
+msgstr ""
+
+#: framework/tinymce/config.php:76
+msgid "It can be specified as px or %. Default value is 250px."
+msgstr ""
+
+#: framework/tinymce/config.php:80
+msgid "Zoom"
+msgstr ""
+
+#: framework/tinymce/config.php:81
+msgid "Zoom value for the map. Default is 14"
+msgstr ""
+
+#: framework/tinymce/config.php:102
+msgid "Insert Google Map"
+msgstr ""
+
+#: framework/tinymce/config.php:114
+msgid "Email"
+msgstr ""
+
+#: framework/tinymce/config.php:115
+msgid "Enter your email address"
+msgstr ""
+
+#: framework/tinymce/config.php:120
+msgid "Form Title"
+msgstr ""
+
+#: framework/tinymce/config.php:121
+msgid "Contact form title. Default : Contact Form"
+msgstr ""
+
+#: framework/tinymce/config.php:126
+msgid "Success Message"
+msgstr ""
+
+#: framework/tinymce/config.php:132
+msgid "Failure Message"
+msgstr ""
+
+#: framework/tinymce/config.php:138
+msgid "Insert Contact Form"
+msgstr ""
+
+#: framework/tinymce/config.php:149
+msgid "Color"
+msgstr ""
+
+#: framework/tinymce/config.php:162
+msgid "Text"
+msgstr ""
+
+#: framework/tinymce/config.php:168
+msgid "Insert Alert"
+msgstr ""
+
+#: framework/tinymce/config.php:177
+msgid "Insert Tabs"
+msgstr ""
+
+#: framework/tinymce/config.php:190
+msgid "Content"
+msgstr ""
+
+#: framework/tinymce/config.php:195
+msgid "Add New Tab"
+msgstr ""
+
+#: framework/tinymce/config.php:205
+msgid "Insert Slider"
+msgstr ""
+
+#: framework/tinymce/config.php:211 framework/tinymce/config.php:270
+#: framework/tinymce/config.php:307
+msgid "Column Type"
+msgstr ""
+
+#: framework/tinymce/config.php:212
+msgid "Url, target and caption values will be ignored on \"video\" slide type"
+msgstr ""
+
+#: framework/tinymce/config.php:221 framework/tinymce/config.php:280
+msgid "Image URL or Video Embed Code"
+msgstr ""
+
+#: framework/tinymce/config.php:222
+msgid ""
+"This is content of your slider. You might prefer to use image URL or video "
+"embed code from youtube, vimeo etc."
+msgstr ""
+
+#: framework/tinymce/config.php:227
+msgid "Url"
+msgstr ""
+
+#: framework/tinymce/config.php:243 framework/tinymce/config.php:286
+msgid "Caption"
+msgstr ""
+
+#: framework/tinymce/config.php:248 framework/tinymce/config.php:291
+msgid "Add New Slide"
+msgstr ""
+
+#: framework/tinymce/config.php:258
+msgid "Insert Gallery"
+msgstr ""
+
+#: framework/tinymce/config.php:271
+msgid "Url, target and caption values will be ignored for video slide"
+msgstr ""
+
+#: framework/tinymce/config.php:281
+msgid ""
+"This is content of your gallery. You might prefer to use image URL or video "
+"URL from Youtube or Vimeo"
+msgstr ""
+
+#: framework/tinymce/config.php:300
+msgid "Insert Columns"
+msgstr ""
+
+#: framework/tinymce/config.php:308
+msgid "Select column type. This theme uses sixteen columns grid system"
+msgstr ""
+
+#: framework/tinymce/config.php:333
+msgid "Column Content"
+msgstr ""
+
+#: framework/tinymce/config.php:338
+msgid "Position in the row"
+msgstr ""
+
+#: framework/tinymce/config.php:339
+msgid ""
+"This option helps to remove margins of the first and last columns in order "
+"to prevent the collapse. If the column is not the first or last in the row, "
+"you should leave it as default"
+msgstr ""
+
+#: framework/tinymce/config.php:348
+msgid "Add Column"
+msgstr ""
+
+#: framework/tinymce/config.php:362
+msgid "Icon Name"
+msgstr ""
+
+#: framework/tinymce/config.php:363
+msgid ""
+"Enter your icon name. E.g. : icon-remove <br>To see full list of icon names, "
+"please visit to http://fortawesome.github.com/Font-Awesome/"
+msgstr ""
+
+#: framework/tinymce/config.php:368
+msgid "Insert Icon"
+msgstr ""

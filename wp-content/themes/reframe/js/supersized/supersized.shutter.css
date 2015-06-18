@@ -1,0 +1,79 @@
+/*
+
+	Supersized - Fullscreen Slideshow jQuery Plugin
+	Version : 3.2.7
+	Site	: www.buildinternet.com/project/supersized
+	
+	Theme 	: Shutter 1.2
+	Author	: Sam Dunn
+	Company : One Mighty Roar (www.onemightyroar.com)
+	License : MIT License / GPL License
+	
+*/
+
+	/* Controls Bar
+	----------------------------*/
+	.full-navigation {	
+		position: absolute;
+		right: 20px;
+		bottom: 80px;
+		width: 200px;
+		height: 40px;
+		text-align:right;
+		z-index: 1000;
+		display:none;
+	}
+	.full-navigation a {
+		cursor:pointer;	
+		margin-left:25px;
+		color:#fff;
+		float:none;
+	}
+	.full-navigation i {	
+		font-size:60px;
+		color:#fff;
+		float:none;
+	}
+	.full-navigation a.playpause {
+		padding:10px;
+		position:relative;
+		top:-12px;
+		margin-right:-5px;
+	}
+	.full-navigation a.playpause i {
+		font-size: 18px!important;
+		position: relative;
+	}
+	#controls-wrapper { margin:0 auto; height:42px; width:100%; bottom:40px; left:50px; z-index:4; position:fixed; }
+		#controls { overflow:hidden; height:100%; position:relative; text-align:left; z-index:5; }
+			#slidecounter { float:left; color:#999; font:14px "Helvetica Neue", Helvetica, Arial, sans-serif; text-shadow:#000 0 -1px 0; margin:0px 10px 0 15px; line-height:42px; }
+			#slidecaption { position:absolute; z-index:1000; float:left; color:#FFF; line-height:42px; bottom:65px; left:20px; }
+			
+	@media only screen and (max-width: 767px) {
+		#slidecaption {
+			left: 0px!important;
+			width: 100%!important;
+			text-align: center!important;
+		}
+		.sliderfooter {
+			display:none!important
+		}
+		
+		.full-navigation {
+			right:auto;
+			left:50%;
+			bottom:30px!important;
+			margin-left:-120px;
+			text-align:center;
+		}
+		.full-navigation i {	
+			font-size:45px;
+		}
+		.full-navigation a.playpause {
+			top:-8px;
+		}
+		.full-navigation a.playpause i {
+			font-size:14px!important;
+			position: relative;
+		}
+	}

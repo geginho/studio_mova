@@ -1,0 +1,98 @@
+/*
+Theme Name:     Studio Mova
+Theme URI:      http://studiomova.me
+Description:    Theme do Studio Mova
+Template:       reframe
+Version:        0.1.0
+*/
+
+@import url("../reframe/style.css");
+
+div.headright .main-nav {
+  display:inline-block;
+  list-style:none;
+  margin:11px;
+  position:relative;
+  text-align:left;
+  text-transform:uppercase;
+  z-index:9999;
+}
+div.headright .main-nav li a {
+  color:#000000;
+  font-size:18px;
+  font-family: 'alegreya sans sc', 'arial';
+  text-transform:none;
+}
+footer .credits {
+  font-size:12px;
+}
+.projectimages .box div.info a {
+  color:#000000;
+  display:block;
+  font-size:14px;
+  font-weight:bold;
+  margin-bottom:10px;
+  margin-top:7px;
+}
+#maincontainer a.main-logo img {
+  max-width:200px;
+  margin-top:-40px;
+}
+.container .eight.columns                   { width: 436px; margin-top:-24px;}
+
+#swipebox-caption {
+	  top: -100px;
+	  text-align: center;
+	}
+#swipebox-action {
+	bottom: 0px;
+	border-top: 0 solid rgba(255, 255, 255, 0.2);
+	}
+#swipebox-action.visible-bars {
+	  -ms-transform: translateY(0px);
+	  -webkit-transform: translateY(0px);
+	  transform: translateY(0px);
+	}
+#swipebox-action{
+background-color:transparent;
+    background-image: none;
+    opacity: 0.9;
+}
+
+div.headright .main-nav .sub-menu{
+  width:256px!important;
+  background-color: #fbfbd7;
+  padding:9px 4px 6px 0px!important;
+
+}
+
+div.headright .main-nav .sub-menu li {
+  color:#666666;
+  float:left;
+  line-height:9px;
+  margin-left:4px;
+  margin-top:0px;
+  padding-left:9px;
+  text-indent:-9px;
+  text-transform:none;
+}
+
+div.headright .main-nav .sub-menu a {
+  font-family:'inconsolata';
+  font-size:12px;
+}
+
+  .projectinfo .content p {
+  margin-bottom:400px;
+  width:215px;
+}
+
+ul.main-nav a.current-menu, div.headright .main-nav a.current-parent {
+  font-weight:normal;
+}
+
+.projectinfo.right h5 {
+  font-size:23px;
+  line-height:1.2em;
+  margin-bottom:10px;
+}
