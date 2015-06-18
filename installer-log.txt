@@ -1,0 +1,168 @@
+********************************************************************************
+DUPLICATOR INSTALL-LOG
+STEP1 START @ 01:09:36
+NOTICE: Do NOT post to public sites or forums
+********************************************************************************
+VERSION:	0.5.2
+PHP:		5.4.27 | SAPI: cgi-fcgi
+SERVER:		Apache
+DOC ROOT:	/home/geromeib/public_html/NEW_MOVA
+DOC ROOT 755:	true
+LOG FILE 644:	true
+BUILD NAME:	20140430_studiomova_53619dfd9b5812571140501010605
+REQUEST URL:	http://new.studiomova.me/installer.php
+
+********************************************************************************
+ARCHIVE SETUP
+********************************************************************************
+NAME:	20140430_studiomova_53619dfd9b5812571140501010605_archive.zip
+SIZE:	11.46MB
+ZIP:	Enabled (ZipArchive Support)
+EXTRACTING
+ZipArchive Object
+(
+    [status] => 0
+    [statusSys] => 0
+    [numFiles] => 0
+    [filename] => 
+    [comment] => 
+)
+COMPLETE: true
+
+WEB SERVER CONFIGURATION FILE RESET:
+- Backup of .htaccess/web.config made to .orig
+- Reset of .htaccess/web.config files
+
+UPDATED FILES:
+- SQL FILE:  '/home/geromeib/public_html/NEW_MOVA/installer-data.sql'
+- WP-CONFIG: '/home/geromeib/public_html/NEW_MOVA/wp-config.php'
+
+ARCHIVE RUNTIME: 37.2054 sec.
+
+
+********************************************************************************
+DATABASE-ROUTINES
+********************************************************************************
+--------------------------------------
+SERVER ENVIROMENT
+--------------------------------------
+MYSQL VERSION:	5.5.36-cll
+TIMEOUT:	5000
+MAXPACK:	16777216
+--------------------------------------
+DATABASE RESULTS
+--------------------------------------
+ERRORS FOUND:	0
+DROP TABLE:	
+QUERIES RAN:	6200
+
+wp_commentmeta: (0)
+wp_comments: (1)
+wp_duplicator_packages: (1)
+wp_icl_cms_nav_cache: (0)
+wp_icl_content_status: (0)
+wp_icl_core_status: (0)
+wp_icl_flags: (63)
+wp_icl_languages: (63)
+wp_icl_languages_translations: (3969)
+wp_icl_locale_map: (2)
+wp_icl_message_status: (0)
+wp_icl_node: (0)
+wp_icl_reminders: (0)
+wp_icl_string_positions: (254)
+wp_icl_string_status: (0)
+wp_icl_string_translations: (20)
+wp_icl_strings: (262)
+wp_icl_translate: (33)
+wp_icl_translate_job: (11)
+wp_icl_translation_status: (3)
+wp_icl_translations: (41)
+wp_links: (0)
+wp_options: (162)
+wp_postmeta: (1033)
+wp_posts: (214)
+wp_term_relationships: (5)
+wp_term_taxonomy: (4)
+wp_terms: (4)
+wp_usermeta: (22)
+wp_users: (1)
+Removed '29' cache/transient rows
+
+SECTION RUNTIME: 0.7385 sec.
+
+********************************************************************************
+STEP1 COMPLETE @ 01:10:14 - TOTAL RUNTIME: 37.9591 sec.
+********************************************************************************
+
+
+
+********************************************************************************
+DUPLICATOR INSTALL-LOG
+STEP2 START @ 01:10:39
+NOTICE: Do not post to public sites or forums
+********************************************************************************
+CHARSET SERVER:	latin1
+CHARSET CLIENT:	 utf8 
+
+--------------------------------------
+SERIALIZER ENGINE
+[*] scan every column
+[~] scan only text columns
+[^] no searchable columns
+--------------------------------------
+wp_commentmeta^ (0)
+wp_comments~ (1)
+wp_duplicator_packages^ (0)
+wp_icl_cms_nav_cache^ (0)
+wp_icl_content_status^ (0)
+wp_icl_core_status^ (0)
+wp_icl_flags~ (63)
+wp_icl_languages~ (63)
+wp_icl_languages_translations~ (3969)
+wp_icl_locale_map~ (2)
+wp_icl_message_status^ (0)
+wp_icl_node^ (0)
+wp_icl_reminders^ (0)
+wp_icl_string_positions~ (254)
+wp_icl_string_status^ (0)
+wp_icl_string_translations~ (20)
+wp_icl_strings~ (262)
+wp_icl_translate~ (33)
+wp_icl_translate_job~ (11)
+wp_icl_translation_status~ (3)
+wp_icl_translations~ (41)
+wp_links^ (0)
+wp_options~ (131)
+wp_postmeta~ (1033)
+wp_posts~ (214)
+wp_term_relationships~ (5)
+wp_term_taxonomy~ (4)
+wp_terms~ (4)
+wp_usermeta~ (22)
+wp_users~ (1)
+--------------------------------------
+SEARCH1:	'http://localhost:8888/mova' 
+REPLACE1:	'http://new.studiomova.me' 
+SEARCH2:	'/Applications/MAMP/htdocs/mova/' 
+REPLACE2:	'/home/geromeib/public_html/NEW_MOVA/' 
+SCANNED:	Tables:30 | Rows:6136 | Cells:29789 
+UPDATED:	Tables:3 | Rows:498 |Cells:498 
+ERRORS:		0 
+RUNTIME:	0.873200 sec
+
+********************************************************************************
+START FINAL CLEANUP: 01:10:40
+********************************************************************************
+UPDATE `wp_blogs` SET domain = 'new.studiomova.me' WHERE domain = 'localhost'
+
+--------------------------------------
+WARNINGS
+--------------------------------------
+No Warnings Found
+
+
+WEB SERVER CONFIGURATION FILE BASIC SETUP:
+created basic .htaccess file.  If using IIS web.config this process will need to be done manually.
+********************************************************************************
+STEP 2 COMPLETE @ 01:10:40 - TOTAL RUNTIME: 0.8873 sec.
+********************************************************************************

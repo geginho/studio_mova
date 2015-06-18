@@ -1,0 +1,10 @@
+[19-Jun-2014 22:39:32 UTC] PHP Parse error:  syntax error, unexpected '<' in /home/geromeib/public_html/NEW_MOVA/wp-content/themes/mova/header.php on line 86
+[19-Jun-2014 22:39:43 UTC] PHP Parse error:  syntax error, unexpected '<' in /home/geromeib/public_html/NEW_MOVA/wp-content/themes/mova/header.php on line 86
+[19-Jun-2014 22:39:50 UTC] PHP Parse error:  syntax error, unexpected '<' in /home/geromeib/public_html/NEW_MOVA/wp-content/themes/mova/header.php on line 86
+[19-Jun-2014 22:48:58 UTC] PHP Parse error:  syntax error, unexpected '<' in /home/geromeib/public_html/NEW_MOVA/wp-content/themes/mova/header.php on line 86
+[19-Jun-2014 23:08:13 UTC] PHP Parse error:  syntax error, unexpected '<' in /home/geromeib/public_html/NEW_MOVA/wp-content/themes/mova/header.php on line 566
+[19-Jun-2014 23:08:16 UTC] PHP Parse error:  syntax error, unexpected '<' in /home/geromeib/public_html/NEW_MOVA/wp-content/themes/mova/header.php on line 566
+[20-Jun-2014 00:04:58 UTC] PHP Parse error:  syntax error, unexpected '<' in /home/geromeib/public_html/NEW_MOVA/wp-content/themes/mova/header.php on line 565
+[20-Jun-2014 03:43:37 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/geromeib/public_html/NEW_MOVA/wp-content/themes/reframe/template-fullslider.php on line 81
+[26-Jun-2014 19:54:07 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/geromeib/public_html/NEW_MOVA/wp-content/themes/reframe/template-fullslider.php on line 81
+[26-Jun-2014 19:54:37 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home/geromeib/public_html/NEW_MOVA/wp-content/themes/reframe/template-fullslider.php on line 81
