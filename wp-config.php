@@ -21,10 +21,10 @@ define( 'WPCACHEHOME', '/home/geromeib/public_html/NEW_MOVA/wp-content/plugins/w
 define('DB_NAME', 'geromeib_newmova2');
 
 /** Usuário do banco de dados MySQL */
-define('DB_USER', 'root');
+define('DB_USER', 'geromeib');
 
 /** Senha do banco de dados MySQL */
-define('DB_PASSWORD', 'root');
+define('DB_PASSWORD', 'rio40graus');
 
 /** nome do host do MySQL */
 define('DB_HOST', 'localhost');
