@@ -17,11 +17,11 @@
 // ** Configurações do MySQL - Você pode pegar essas informações com o serviço de hospedagem ** //
 /** O nome do banco de dados do WordPress */
 define('WP_CACHE', true); //Added by WP-Cache Manager
-define( 'WPCACHEHOME', '/home/geromeib/public_html/NEW_MOVA/wp-content/plugins/wp-super-cache/' ); //Added by WP-Cache Manager
-define('DB_NAME', 'geromeib_newmova2');
+define( 'WPCACHEHOME', '/home/geromeib/public_html/studio_mova/wp-content/plugins/wp-super-cache/' ); //Added by WP-Cache Manager
+define('DB_NAME', 'geromeib_mova-test');
 
 /** Usuário do banco de dados MySQL */
-define('DB_USER', 'geromeib');
+define('DB_USER', 'geromeib_gerome');
 
 /** Senha do banco de dados MySQL */
 define('DB_PASSWORD', 'rio40graus');
