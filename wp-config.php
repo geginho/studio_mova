@@ -16,8 +16,6 @@
 
 // ** Configurações do MySQL - Você pode pegar essas informações com o serviço de hospedagem ** //
 /** O nome do banco de dados do WordPress */
-define('WP_CACHE', true); //Added by WP-Cache Manager
-define( 'WPCACHEHOME', '/home/geromeib/public_html/mova/wp-content/plugins/wp-super-cache/' ); //Added by WP-Cache Manager
 define('DB_NAME', 'geromeib_mova-test');
 
 /** Usuário do banco de dados MySQL */
