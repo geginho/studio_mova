@@ -90,3 +90,6 @@ if ( !defined('ABSPATH') )
 	
 /** Configura as variáveis do WordPress e arquivos inclusos. */
 require_once(ABSPATH . 'wp-settings.php');
+
+define('JETPACK_IP_ADDRESS_OK', '127.0.0.1');
+
