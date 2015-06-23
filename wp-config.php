@@ -78,7 +78,7 @@ define('WPLANG', 'pt_BR');
  * é altamente recomendável que os desenvolvedores de plugins e temas usem o WP_DEBUG
  * em seus ambientes de desenvolvimento.
  */
-define('WP_DEBUG', false);
+define('WP_DEBUG', true);
 
 /* Isto é tudo, pode parar de editar! :) */
 
