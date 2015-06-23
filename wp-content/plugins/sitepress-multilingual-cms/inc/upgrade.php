@@ -1,9 +1,5 @@
 <?php
-
-$filtered_action = filter_input( INPUT_POST, 'action' );
-$filtered_action = $filtered_action ? $filtered_action : filter_input( INPUT_GET, 'action' );
-
-if (!defined('ICL_SITEPRESS_DEV_VERSION') && (version_compare( get_option( 'icl_sitepress_version' ), ICL_SITEPRESS_VERSION, '=' ) || ( 0 === strcmp( $filtered_action, 'error_scrape') ) || ! isset( $wpdb ) )) {
+if (!defined('ICL_SITEPRESS_DEV_VERSION') && (version_compare( get_option( 'icl_sitepress_version' ), ICL_SITEPRESS_VERSION, '=' ) || ( isset( $_REQUEST[ 'action' ] ) && $_REQUEST[ 'action' ] == 'error_scrape' ) || ! isset( $wpdb ) )) {
 	return;
 }
 
@@ -21,16 +17,8 @@ add_action('plugins_loaded', 'icl_plugin_upgrade' , 1);
 function icl_plugin_upgrade(){
     global $wpdb;
     
-    $iclsettings = get_option('icl_sitepress_settings');    
+    $iclsettings = get_option('icl_sitepress_settings');
     
-    // upgrade actions
-
-    // 1. reset ajx_health_flag
-	//@since 3.1 -> removed as this cause ajx_health_check on each request
-//    $iclsettings['ajx_health_checked'] = 0;
-//    update_option('icl_sitepress_settings',$iclsettings);
-    
-    // clear any caches
     require_once ICL_PLUGIN_PATH . '/inc/cache.php';
     icl_cache_clear('locale_cache_class');
     icl_cache_clear('flags_cache_class');
@@ -63,6 +51,7 @@ function icl_plugin_upgrade(){
 
     if(get_option('icl_sitepress_version') && version_compare(get_option('icl_sitepress_version'), '1.7.8', '<')){    
         $res = $wpdb->get_results("SELECT ID, post_type FROM {$wpdb->posts}");
+	    $post_types = array();
         foreach($res as $row){
             $post_types[$row->post_type][] = $row->ID;
         }
@@ -100,25 +89,32 @@ function icl_plugin_upgrade(){
         $sql = "ALTER TABLE {$wpdb->prefix}icl_translation_status ADD COLUMN `_prevstate` longtext";
         $wpdb->query($sql);
     }
-
-	icl_upgrade_version( '2.0.5' );
-	icl_upgrade_version( '2.2.2' );
-	icl_upgrade_version( '2.3.0' );
-	icl_upgrade_version( '2.3.1' );
-	icl_upgrade_version( '2.3.3' );
-	icl_upgrade_version( '2.4.0' );
-	icl_upgrade_version( '2.5.0' );
-	icl_upgrade_version( '2.5.2' );
-	icl_upgrade_version( '2.6.0' );
-	icl_upgrade_version( '2.6.2' );
-	icl_upgrade_version( '2.7' );
-	icl_upgrade_version( '2.9' );
-	icl_upgrade_version( '2.9.3' );
-	icl_upgrade_version( '3.1' );
-	icl_upgrade_version( '3.1.5' );
-	icl_upgrade_version( '3.1.8' );
-	icl_upgrade_version( '3.1.9.5' );
-
+    
+		$versions = array(
+			'2.0.5',
+			'2.2.2',
+			'2.3.0',
+			'2.3.1',
+			'2.3.3',
+			'2.4.0',
+			'2.5.0',
+			'2.5.2',
+			'2.6.0',
+			'2.7'  ,
+			'2.9'  ,
+			'2.9.3',
+			'3.1'  ,
+			'3.1.5',
+			'3.1.8',
+			'3.1.9.5',
+			'3.2'
+    
+		);
+    
+		foreach($versions as $version) {
+			icl_upgrade_version( $version );
+		}
+    
 	//Forcing upgrade logic when ICL_SITEPRESS_DEV_VERSION is defined
 	//This allow to run the logic between different alpha/beta/RC versions
 	//since we are now storing only the formal version in the options
@@ -133,6 +129,10 @@ function icl_plugin_upgrade(){
 
 function icl_upgrade_version($version, $force = false){
     global $wpdb, $sitepress_settings, $sitepress, $iclsettings;
+
+	if(!$force && defined('WPML_FORCE_UPDATES')) {
+		$force = WPML_FORCE_UPDATES;
+	}
 
 	if($force || (get_option('icl_sitepress_version') && version_compare(get_option('icl_sitepress_version'), $version, '<' ))){
         $upg_file = ICL_PLUGIN_PATH . '/inc/upgrade-functions/upgrade-' . $version . '.php';        

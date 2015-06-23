@@ -2,15 +2,22 @@
 require_once 'wpml-update-term-action.class.php';
 
 /**
- *  This class holds all basic functionality for translating terms.
+ * @since      3.1.8
+ *
+ * Class WPML_Terms_Translations
+ *
+ * This class holds some basic functionality for translating taxonomy terms.
+ *
+ * @package    wpml-core
+ * @subpackage taxonomy-term-translation
  */
 class WPML_Terms_Translations {
 
 	/**
 	 * @deprecated since Version 3.1.8.3
-	 * @param $terms array
-	 * @param $taxonomies array|string
-	 * This is only used by the WP core AJAX call that fetches the preview auto-complete for flat taxonomy term adding
+	 * @param object[]|string[] $terms
+	 * @param   string[]|string $taxonomies This is only used by the WP core AJAX call that fetches the preview
+	 *                                      auto-complete for flat taxonomy term adding
 	 *
 	 * @return mixed
 	 */
@@ -70,43 +77,6 @@ class WPML_Terms_Translations {
 	/**
 	 * @param $slug
 	 * @param $taxonomy
-	 * Filters slug input, so to ensure uniqueness of term slugs.
-	 *
-	 * @return string
-	 */
-	public static function pre_term_slug_filter( $slug, $taxonomy ) {
-		global $sitepress;
-
-		if ( ( isset( $_REQUEST[ 'tag-name' ] ) || isset( $_REQUEST[ 'name' ] ) )
-		     && ( ( isset( $_REQUEST[ 'action' ] ) && $_REQUEST[ 'action' ] === 'add-tag' ) )
-		) {
-			// When a term is created, it is likely that this term is to be created in the currently selected language
-			$lang = $sitepress->get_current_language();
-
-			/* Still WPML allows for creating it in a different language, via adding the proper hidden field on the edit-tags.php.
-			 * Settings in this hidden field take priority over the current_language in the cookie.
-			 */
-			if ( isset( $_REQUEST[ 'icl_tax_post_tag_language' ] ) && $sitepress->is_active_language( $_POST[ 'icl_tax_post_tag_language' ] ) ) {
-				$lang = $_REQUEST[ 'icl_tax_post_tag_language' ];
-			} elseif ( isset( $_REQUEST[ 'language' ] ) && $sitepress->is_active_language( $_POST[ 'language' ] ) ) {
-				$lang = $_REQUEST[ 'language' ];
-			}
-			if ( $slug === '' ) {
-				if ( isset( $_REQUEST[ 'tag-name' ] ) ) {
-					$slug = sanitize_title( $_REQUEST[ 'tag-name' ] );
-				} elseif ( isset( $_REQUEST[ 'name' ] ) ) {
-					$slug = sanitize_title( $_REQUEST[ 'name' ] );
-				}
-			}
-			$slug = $slug !== '' ? urlencode(self::term_unique_slug( $slug, $taxonomy, $lang )) : $slug;
-		}
-
-		return ($slug);
-	}
-
-	/**
-	 * @param $slug
-	 * @param $taxonomy
 	 * @param $lang
 	 * Creates a unique slug for a given term, using a scheme
 	 * encoding the language code in the slug.
@@ -158,7 +128,7 @@ class WPML_Terms_Translations {
 		$term_id                      = $wpdb->get_var( $existing_term_prepared_query );
 
 		return (bool) $term_id;
-						}
+	}
 
 	/**
 	 *
@@ -305,42 +275,6 @@ class WPML_Terms_Translations {
 	}
 
 	/**
-	 * Filters the display of the categories list in order to prevent the default category from being delete-able.
-	 * This is done by printing a hidden div containing a JSON encoded array with all category id's, the checkboxes of which are to be removed.
-	 *
-	 * @param $taxonomy
-	 */
-	public static function category_display_action( $taxonomy ) {
-		global $sitepress;
-
-		//first of all we get the default category regardless of it's current language
-		$default_category_id = get_option( 'default_category' );
-
-		$default_cat_ids = array();
-
-		if ( $default_category_id ) {
-			$default_category_object = get_term( $default_category_id, 'category' );
-			if ( $default_category_object && isset( $default_category_object->term_taxonomy_id ) ) {
-				$default_category_tax_id       = $default_category_object->term_taxonomy_id;
-				$trid                          = $sitepress->get_element_trid( $default_category_tax_id, 'tax_category' );
-				$default_category_translations = $sitepress->get_element_translations( $trid, 'tax_category' );
-				foreach ( $default_category_translations as $translation ) {
-					if ( isset( $translation->element_id ) ) {
-						$translation_object = get_term_by( 'term_taxonomy_id', $translation->element_id, 'category' );
-						if ( isset( $translation_object->term_id ) ) {
-							$default_cat_ids [ ] = $translation_object->term_id;
-						}
-					}
-				}
-			}
-		}
-		$default_cats_json = wp_json_encode( $default_cat_ids );
-		$output            = '<div id="icl-default-category-ids" style="display: none;">' . $default_cats_json . '</div>';
-
-		echo $output;
-	}
-
-	/**
 	 * Prints a hidden div, containing the list of allowed terms for a post type in each language.
 	 * This is used to only display the correct categories and tags in the quick-edit fields of the post table.
 	 *
@@ -446,10 +380,10 @@ class WPML_Terms_Translations {
 			$pop_items = wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $echo = false );
 		}
 
-		$query = $wpdb->prepare( "SELECT wptt.term_id
-                                  FROM {$wpdb->prefix}icl_translations AS iclt
-                                  JOIN {$wpdb->prefix}term_taxonomy AS wptt
-                                    ON iclt.element_id = wptt.term_taxonomy_id
+		$query = $wpdb->prepare( "	SELECT wptt.term_id
+									FROM {$wpdb->prefix}icl_translations AS iclt
+									JOIN {$wpdb->prefix}term_taxonomy AS wptt
+										ON iclt.element_id = wptt.term_taxonomy_id
                                   WHERE language_code=%s
                                     AND element_type = %s", $lang, $element_type );
 
@@ -522,168 +456,6 @@ class WPML_Terms_Translations {
 	}
 
 	/**
-	 * @param      $job_id
-	 * @param      $post_id
-	 * @param bool $overwrite Sets whether existing translations are to be overwritten or new ones to be created.
-	 *                        This is parameter is set by the sitepress setting tm_block_retranslating_terms
-	 *
-	 * @return array
-	 */
-	public static function save_all_terms_from_job( $job_id, $post_id, $overwrite = true ) {
-		global $iclTranslationManagement, $sitepress;
-
-		remove_action( 'create_term', array( $sitepress, 'create_term' ), 1);
-		remove_action( 'edit_term', array( $sitepress, 'create_term' ), 1 );
-
-		/* The first step is to get the new $post object well as the new $job */
-
-		/** @noinspection PhpUndefinedMethodInspection */
-		$job         = $iclTranslationManagement->get_translation_job( $job_id );
-		$post_object = get_post( $post_id );
-
-		/*
-		 * Now we need all taxonomies from which the job contains elements.
-		 * We do only care about translated taxonomies.
-		 * We treat hierarchical and non-hierarchical taxonomies differently.
-		 */
-
-		$taxonomies = get_object_taxonomies( $post_object );
-
-		$translated_taxonomies = array();
-
-		foreach ( $taxonomies as $taxonomy ) {
-			if ( $sitepress->is_translated_taxonomy( $taxonomy ) ) {
-
-				$translated_taxonomies [ ] = $taxonomy;
-			}
-		}
-
-		$terms = array();
-
-		foreach ( $job->elements as $field ) {
-
-			$field_type = $field->field_type;
-
-			/* Naming convention adjustments */
-			if ( $field_type == 'categories' ) {
-				$field_type = 'category';
-			} elseif ( $field_type == 'tags' ) {
-				$field_type = 'post_tag';
-			}
-
-			if ( in_array( $field_type, $translated_taxonomies ) ) {
-				$terms [ $field_type ] [ ] = $field;
-			}
-		}
-
-		/* Here begins the actual saving of the terms
-		 * First the arguments pertaining to a possible scenarios of term saving are set.
-		 */
-
-		$term_save_args = array(
-			'lang_code'       => $job->language_code,
-			'source_language' => $job->source_language_code,
-			'overwrite'       => $overwrite
-		);
-
-		$result = array();
-
-		foreach ( $terms as $tax => $fields_array ) {
-			foreach ( $fields_array as $flat_terms_field ) {
-
-				/* The term names are encoded in the job object and have to be decoded */
-				$translated_terms_array = TranslationManagement::decode_field_data( $flat_terms_field->field_data_translated, $flat_terms_field->field_format );
-				$original_terms_array   = TranslationManagement::decode_field_data( $flat_terms_field->field_data, $flat_terms_field->field_format );
-
-				foreach ( $translated_terms_array as $key => $translated_term ) {
-
-					/* Each term has its own trid.
-					 * We get it by first fetching the original term object by its name and then getting its original taxonomy id
-					 */
-					$original_term = $original_terms_array[ $key ];
-					//todo: handle this differently for hierarchical terms, otherwise we might run into problems here, generally try moving towards using term_ids
-					$original_term_object = get_term_by( 'name', $original_term, $tax );
-
-					$term_save_args[ 'term' ] = $translated_term;
-
-					$term_save_args[ 'trid' ] = $sitepress->get_element_trid( $original_term_object->term_taxonomy_id, 'tax_' . $tax );
-
-					$term_save_args[ 'taxonomy' ] = $tax;
-
-					$saved_term = self::create_new_term( $term_save_args );
-
-					$append_result = wp_set_object_terms( $post_id, $saved_term[ 'term_id' ], $tax, true );
-
-					if ( ! isset( $append_result[ 0 ] ) || $append_result[ 0 ] != $saved_term[ 'term_taxonomy_id' ] ) {
-						$result [ ] = $flat_terms_field;
-					} else {
-						$result [ ] = $append_result;
-					}
-				}
-			}
-			self::sync_post_and_taxonomy_terms_language( $post_id, $tax );
-		}
-
-		add_action( 'create_term', array( $sitepress, 'create_term' ), 1, 2 );
-		add_action( 'edit_term', array( $sitepress, 'create_term' ), 1, 2 );
-
-		return $result;
-	}
-
-	/**
-	 * @param $post_id int
-	 * @param $args    array Arguments for the term creation
-	 *                 Adds a term to a post. Creates the term if it does not yet exist.
-	 *
-	 * @return bool
-	 */
-	public static function create_term_on_post( $post_id, $args ) {
-
-		$term        = false;
-		$taxonomy    = false;
-		$parent      = false;
-		$term_object = false;
-
-		extract( $args, EXTR_OVERWRITE );
-
-		/* We have to have be careful when handling hierarchical taxonomies here.
-		/ Adding two terms by the same name but with different parents is ensured by this check */
-		if ( !$parent || $parent == -1 ) {
-			$term_object = get_term_by( 'name', $term, $taxonomy );
-		} else {
-			$termchildren = get_term_children( $parent, $taxonomy );
-			foreach ( $termchildren as $child ) {
-				$child_term_object = get_term_by( 'id', $child, $taxonomy );
-				if ( $term === $child_term_object->name ) {
-					$term_object = $child_term_object;
-					break;
-				}
-			}
-		}
-		/* Simply true for now */
-		$update_translations           = true;
-		$args[ 'update_translations' ] = $update_translations;
-
-		if ( ! $term_object ) {
-			$saved_term = self::create_new_term( $args );
-
-			$append_result = wp_set_object_terms( $post_id, (int)$saved_term[ 'term_id' ], $taxonomy, true );
-		} else {
-			$append_result = wp_set_object_terms( $post_id, $term_object->term_id, $taxonomy, true );
-		}
-
-		if ( ! is_array( $append_result ) || ! isset( $append_result[ 0 ] ) ) {
-			$result = false;
-		} else {
-			$result = $append_result[ 0 ];
-		}
-
-		self::sync_post_and_taxonomy_terms_language( $post_id, $taxonomy );
-
-		return $result;
-	}
-
-	/**
 	 * Creates a new term from an argument array.
 	 * @param array $args
 	 * @return array|bool
@@ -715,24 +487,9 @@ class WPML_Terms_Translations {
 
 		if ( $sync && $new_term && $taxonomy && $lang_code ) {
 			self::sync_taxonomy_terms_language( $taxonomy );
-			self::sync_parent_child_relations( $taxonomy, $lang_code );
-
 		}
 
 		return $new_term;
-	}
-
-	/**
-	 * @param $taxonomy
-	 * @param $lang
-	 * Synchronizes the parent child relationships with those of the source terms, for all terms in the given taxonomy
-	 * and language.
-	 * @return bool
-	 */
-	private static function sync_parent_child_relations( $taxonomy, $lang ) {
-		$taxonomy_tree = new WPML_Translation_Tree( $taxonomy );
-		$taxonomy_tree->sync_tree( $lang );
-		return true;
 	}
 
 	/**
@@ -791,10 +548,17 @@ class WPML_Terms_Translations {
 			$translated_slug = false;
 
 			if ( ! $term && isset( $original_term->name ) ) {
-				$term = $original_term->name;
+                $term = apply_filters( 'icl_duplicate_generic_string',
+                    $original_term->name,
+                    $lang_code,
+                    array( 'context' => 'taxonomy', 'attribute' => $taxonomy, 'key' => $original_term->term_id ) );
 			}
 			if ( isset( $original_term->slug ) ) {
-				$translated_slug = self::term_unique_slug( $original_term->slug, $taxonomy, $lang_code );
+                $translated_slug =  apply_filters( 'icl_duplicate_generic_string',
+                    $original_term->slug,
+                    $lang_code,
+                    array( 'context' => 'taxonomy_slug', 'attribute' => $taxonomy, 'key' => $original_term->term_id ) );
+				$translated_slug = self::term_unique_slug( $translated_slug, $taxonomy, $lang_code );
 			}
 			$new_translated_term = false;
 			if ( $term ) {
@@ -818,41 +582,38 @@ class WPML_Terms_Translations {
 
 	/**
 	 * @param      $taxonomy
-	 * @param bool $automatic_translation
 	 *
 	 * Sets all taxonomy terms to the correct language on each post, having at least one term from the taxonomy.
 	 */
-	public static function sync_taxonomy_terms_language( $taxonomy, $automatic_translation = false ) {
+	public static function sync_taxonomy_terms_language( $taxonomy ) {
 		$all_posts_in_taxonomy = get_posts( array( 'tax_query' => array( 'taxonomy' => $taxonomy ) ) );
 
 		foreach ( $all_posts_in_taxonomy as $post_in_taxonomy ) {
-			self::sync_post_and_taxonomy_terms_language( $post_in_taxonomy->ID, $taxonomy, $automatic_translation );
+			self::sync_post_and_taxonomy_terms_language( $post_in_taxonomy->ID, $taxonomy );
 		}
 	}
 
 	/**
 	 * @param      $post_id
-	 * @param bool $automatic_translation
 	 *
 	 * Sets all taxonomy terms ot the correct language for a given post.
 	 */
-	public static function sync_post_terms_language( $post_id,  $automatic_translation = false ) {
+	public static function sync_post_terms_language( $post_id ) {
 
 		$taxonomies = get_taxonomies();
 
 		foreach ( $taxonomies as $taxonomy ) {
-			self::sync_post_and_taxonomy_terms_language( $post_id, $taxonomy, $automatic_translation );
+			self::sync_post_and_taxonomy_terms_language( $post_id, $taxonomy );
 		}
 	}
 
 	/**
 	 * @param             $post_id
 	 * @param             $taxonomy
-	 * @param bool        $automatic_translation
 	 * Synchronizes a posts taxonomy term's languages with the posts language for all translations of the post.
 	 *
 	 */
-	public static function sync_post_and_taxonomy_terms_language( $post_id, $taxonomy, $automatic_translation = false ) {
+	public static function sync_post_and_taxonomy_terms_language( $post_id, $taxonomy ) {
 		global $sitepress;
 
 		$post                     = get_post( $post_id );
@@ -876,7 +637,7 @@ class WPML_Terms_Translations {
 			$terms_from_translated_post = wp_get_post_terms( $translated_post_id, $taxonomy );
 			if ( $is_original ) {
 				/** @var $iclTranslationManagement TranslationManagement */
-				global $iclTranslationManagement;
+				$iclTranslationManagement = wpml_load_core_tm();
 				$duplicates = $iclTranslationManagement->get_duplicates( $post_id );
 				if ( in_array( $translated_post_id, $duplicates ) ) {
 					$terms = array_merge( $terms_from_original_post, $terms_from_translated_post );
@@ -903,27 +664,8 @@ class WPML_Terms_Translations {
 
 					if ( isset( $translated_terms[ $post_language ] ) ) {
 						$term_in_correct_language = $translated_terms[ $post_language ];
-					} else {
-						$term_in_correct_language = false;
-						if ( $automatic_translation ) {
-
-							$automatic_translation_args = array(
-								'lang_code'       => $post_language,
-								'taxonomy'        => $taxonomy,
-								'trid'            => $term_trid,
-								'source_language' => $original_term_language
-							);
-
-							$term_in_correct_language = self::create_automatic_translation( $automatic_translation_args );
-						}
-						if ( ! is_array( $term_in_correct_language ) || ! isset( $term_in_correct_language[ 'term_id' ] ) ) {
-							continue;
-						}
-						$term_in_correct_language = get_term( $term_in_correct_language[ 'term_id' ], $taxonomy );
+						wp_set_post_terms( $translated_post_id, array( (int) $term_in_correct_language->term_id ), $taxonomy, true );
 					}
-
-					wp_set_post_terms( $translated_post_id, array( (int) $term_in_correct_language->term_id ), $taxonomy, true );
-                    self::sync_parent_child_relations( $taxonomy, $post_language );
 
 					if ( isset( $term->term_taxonomy_id ) ) {
 						wp_update_term_count( $term->term_taxonomy_id, $taxonomy );
@@ -963,82 +705,54 @@ class WPML_Terms_Translations {
 	 * and the option 'sync_post_taxonomies' is set.
 	 *
 	 * @param $object_id int ID of the object, that terms have just been added to.
-	 * @param bool $append True by default, meaning that original terms translations will be appended to the translated
-	 *                     posts. If false, all terms on translated posts, that do not have a translation on the original,
-	 *                     will be removed.
 	 */
-	public static function added_term_relationships( $object_id, $append = true ) {
+	public static function added_term_relationships( $object_id) {
 		global $sitepress, $wpdb;
-		//TODO: [WPML 3.2] We have a better way to check if the post is an external type (e.g. Package).
-		if ( $sitepress->get_setting( 'sync_post_taxonomies' ) && get_post( $object_id ) ) {
 
-			$tr        = $wpdb->term_relationships;
-			$tt        = $wpdb->term_taxonomy;
+		//TODO: [WPML 3.2] We have a better way to check if the post is an external type (e.g. Package).
+		if ( $sitepress->get_setting( 'sync_post_taxonomies' ) ) {
 			$i         = $wpdb->prefix . 'icl_translations';
-			$object_id = esc_sql( $object_id );
-			$current_ttids_sql = "
-									SELECT
-									  tt.taxonomy,
-									  tt.term_id,
-									  p.ID
-									FROM {$wpdb->posts} p JOIN {$i} i
-									    ON p.ID = i.element_id
-									  JOIN {$i} it ON it.language_code = i.language_code
-									  JOIN {$tt} tt
-									    ON tt.term_taxonomy_id = it.element_id
-									       AND CONCAT('tax_', tt.taxonomy) = it.element_type
-									WHERE p.ID != {$object_id}
-									      AND i.element_type = CONCAT('post_', p.post_type)
-									      AND i.trid IN
-									          (
-									            SELECT trid
-									            FROM {$i}
-									            WHERE element_id = {$object_id}
-									                  AND element_type = CONCAT('post_', p.post_type)
-									          )
-									      AND tt.term_taxonomy_id IN
-									          (
-									            SELECT element_id
-									            FROM {$i}
-									            WHERE trid IN
-									                  (
-									                    SELECT trid
-									                    FROM {$i}
-									                    WHERE element_id IN
-									                          (
-									                            SELECT term_taxonomy_id
-									                            FROM {$tr}
-									                            WHERE object_id = {$object_id}
-									                          )
-									                          AND element_type LIKE 'tax_%'
-									                  )
-									          )
-								          AND i.source_language_code = (SELECT language_code
-								                                        FROM {$i}
-								                                        WHERE element_id = {$object_id}
-								                                        AND element_type = i.element_type
-								                                        LIMIT 1 )
-									";
+			$current_ttids_sql =
+				$wpdb->prepare("SELECT
+									ctt.taxonomy,
+									ctt.term_id,
+									p.ID
+								FROM {$wpdb->posts} p
+								JOIN {$i} i
+								  ON p.ID = i.element_id
+								     AND i.element_type = CONCAT('post_', p.post_type)
+								JOIN {$i} it
+								JOIN {$wpdb->term_taxonomy} tt
+								    ON tt.term_taxonomy_id = it.element_id
+								       AND CONCAT('tax_', tt.taxonomy) = it.element_type
+								JOIN {$wpdb->term_relationships} objrel
+								  ON objrel.object_id = p.ID
+								    AND objrel.term_taxonomy_id = tt.term_taxonomy_id
+								JOIN {$i} itt
+								  ON itt.trid = it.trid
+								    AND itt.language_code = i.language_code
+								JOIN {$wpdb->term_taxonomy} ctt
+								  ON ctt.term_taxonomy_id = itt.element_id
+								WHERE  p.ID = %d", $object_id);
 			$corrections       = $wpdb->get_results( $current_ttids_sql );
 
 			$changes = array();
 
 			foreach ( $corrections as $correction ) {
-				if ( ! isset( $changes[ $correction->ID ] ) ) {
-					$changes[ $correction->ID ] = array();
+				if ( !$sitepress->is_translated_taxonomy ( $correction->taxonomy ) ) {
+					continue;
 				}
-				if ( ! isset( $changes[ $correction->ID ][ $correction->taxonomy ] ) ) {
+				if ( ! isset( $changes[ $correction->taxonomy ] ) ) {
 					$changes[ $correction->ID ][ $correction->taxonomy ] = array();
 				}
-				$changes[ $correction->ID ][ $correction->taxonomy ][ ] = (int) $correction->term_id;
+				$changes[ $correction->taxonomy ][ ] = (int) $correction->term_id;
 			}
 
-			foreach ( $changes as $pid => $taxonomy_terms ) {
-				foreach ( $taxonomy_terms as $taxonomy => $term_ids ) {
-					wp_set_object_terms( $pid, $term_ids, $taxonomy, $append );
-				}
+			foreach ( $changes as $taxonomy => $term_ids ) {
+				remove_action('set_object_terms', array( 'WPML_Terms_Translations', 'set_object_terms_action' ), 10 );
+				wp_set_object_terms( $object_id, $term_ids, $taxonomy, false );
+				add_action( 'set_object_terms', array( 'WPML_Terms_Translations', 'set_object_terms_action' ), 10, 6 );
 			}
-
 		}
 	}
 
@@ -1098,23 +812,15 @@ class WPML_Terms_Translations {
 	 * any language setting.
 	 */
 	public static function quick_edited_post_terms( $post_id, $taxonomy, $changed_ttids = array(), $bulk = false ) {
-		global $wpdb, $sitepress;
+		global $wpdb, $sitepress, $wpml_post_translations;
 
-		if ( ! $sitepress->is_translated_taxonomy( $taxonomy ) ) {
-			return;
-		}
-
-		// First we get a list of all ttids that are in the posts language and currently acted upon taxonomy.
-
-		$post_type = get_post_type( $post_id );
-		$post_lang = $sitepress->get_language_for_element( $post_id, 'post_' . $post_type );
-
-		if ( ! $post_lang ) {
+		if ( !$sitepress->is_translated_taxonomy ( $taxonomy )
+		     || !( $post_lang = $wpml_post_translations->get_element_lang_code ( $post_id ) )
+		) {
 			return;
 		}
 
 		$query_for_allowed_ttids = $wpdb->prepare( "SELECT element_id FROM {$wpdb->prefix}icl_translations WHERE language_code = %s AND element_type = %s", $post_lang, 'tax_' . $taxonomy );
-
 		$allowed_ttids = $wpdb->get_col( $query_for_allowed_ttids );
 		$new_ttids = array();
 
@@ -1159,10 +865,7 @@ class WPML_Terms_Translations {
 						$new_term = wp_insert_term( $term_name, $taxonomy, array( 'slug' => self::term_unique_slug( sanitize_title( $term_name ), $taxonomy, $post_lang ) ) );
 						if ( isset( $new_term[ 'term_taxonomy_id' ] ) ) {
 							$ttid_in_correct_lang = $new_term[ 'term_taxonomy_id' ];
-							$trid                 = false;
-							if ( $bulk ) {
-								$trid = $sitepress->get_element_trid( $ttid, 'tax_' . $taxonomy );
-							}
+							$trid = $bulk ? $sitepress->get_element_trid( $ttid, 'tax_' . $taxonomy ) : false;
 							$sitepress->set_element_language_details( $ttid_in_correct_lang, 'tax_' . $taxonomy, $trid, $post_lang );
 						}
 					}

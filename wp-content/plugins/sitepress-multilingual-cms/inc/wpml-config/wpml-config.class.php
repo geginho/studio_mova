@@ -1,6 +1,6 @@
 <?php
 
-require ICL_PLUGIN_PATH . "/inc/taxonomy-term-translation/wpml-term-language-synchronization.class.php";
+require_once ICL_PLUGIN_PATH . "/inc/taxonomy-term-translation/wpml-term-language-synchronization.class.php";
 
 class WPML_Config
 {
@@ -47,20 +47,26 @@ class WPML_Config
 		$sitepress->save_settings();
 	}
 
-	static function load_config_pre_process()
-	{
+	static function load_config_pre_process() {
 		global $iclTranslationManagement;
 		$tm_settings = $iclTranslationManagement->settings;
 
-		$tm_settings[ '__custom_types_readonly_config_prev' ] = ( isset( $tm_settings[ 'custom_types_readonly_config' ] ) && is_array( $tm_settings[ 'custom_types_readonly_config' ] ) ) ? $tm_settings[ 'custom_types_readonly_config' ] : array();
-		$tm_settings[ 'custom_types_readonly_config' ]        = array();
+		if ( ( isset( $tm_settings[ 'custom_types_readonly_config' ] ) && is_array( $tm_settings[ 'custom_types_readonly_config' ] ) ) ) {
+			$iclTranslationManagement->settings[ '__custom_types_readonly_config_prev' ] = $tm_settings[ 'custom_types_readonly_config' ];
+		} else {
+			$iclTranslationManagement->settings[ '__custom_types_readonly_config_prev' ] = array();
+		}
+		$iclTranslationManagement->settings[ 'custom_types_readonly_config' ] = array();
 
-		$tm_settings[ '__custom_fields_readonly_config_prev' ] = ( isset( $tm_settings[ 'custom_fields_readonly_config' ] ) && is_array( $tm_settings[ 'custom_fields_readonly_config' ] ) ) ? $tm_settings[ 'custom_fields_readonly_config' ] : array();
-		$tm_settings[ 'custom_fields_readonly_config' ]        = array();
+		if ( ( isset( $tm_settings[ 'custom_fields_readonly_config' ] ) && is_array( $tm_settings[ 'custom_fields_readonly_config' ] ) ) ) {
+			$iclTranslationManagement->settings[ '__custom_fields_readonly_config_prev' ] = $tm_settings[ 'custom_fields_readonly_config' ];
+		} else {
+			$iclTranslationManagement->settings[ '__custom_fields_readonly_config_prev' ] = array();
+		}
+		$iclTranslationManagement->settings[ 'custom_fields_readonly_config' ] = array();
 	}
 
-	static function load_plugins_wpml_config()
-	{
+	static function load_plugins_wpml_config() {
 		if ( is_multisite() ) {
 			// Get multi site plugins
 			$plugins = get_site_option( 'active_sitewide_plugins' );
@@ -156,7 +162,7 @@ class WPML_Config
                     self::$wpml_config_files[$key] = new stdClass();
                     self::$wpml_config_files[$key]->config = icl_xml2array($config_files_arr[$item->name]);
                     self::$wpml_config_files[$key]->type = $type;
-                    self::$wpml_config_files[$key]->admin_text_context = basename( dirname( $config_file ) );;
+                    self::$wpml_config_files[$key]->admin_text_context = basename( dirname( $config_file ) );
                     return false;
                 }else{
                     return true;
@@ -189,6 +195,23 @@ class WPML_Config
 
 		return self::$wpml_config_files;
 	}
+	
+	static function get_theme_wpml_config_file() {
+		if ( get_template_directory() != get_stylesheet_directory() ) {
+			$config_file = get_stylesheet_directory() . '/wpml-config.xml';
+			if ( file_exists( $config_file ) ) {
+				return $config_file;
+			}
+		}
+
+		$config_file = get_template_directory() . '/wpml-config.xml';
+		if ( file_exists( $config_file ) ) {
+			return $config_file;
+		}
+		
+		return false;
+		
+	}
 
 	static function parse_wpml_config_files()
 	{
@@ -203,87 +226,73 @@ class WPML_Config
 			);
 
 			foreach ( self::$wpml_config_files as $file ) {
-                if(is_object($file)){
-                    $config = $file->config;
-                    $type = $file->type;
-                    $admin_text_context = $file->admin_text_context;
-                } else {
-                    $config = icl_xml2array ( file_get_contents ( $file ) );
-                    $type = ( dirname ( $file ) === get_template_directory ()
-                              || dirname ( $file ) === get_stylesheet_directory () ) ? 'theme' : 'plugin';
-                    $admin_text_context = basename ( dirname ( $file ) );
-                }
+				if ( is_object( $file ) ) {
+					$config             = $file->config;
+					$type               = $file->type;
+					$admin_text_context = $file->admin_text_context;
+				} else {
+					$config             = icl_xml2array( file_get_contents( $file ) );
+					$type               = ( dirname( $file ) == get_template_directory() || dirname( $file ) == get_stylesheet_directory() ) ? 'theme' : 'plugin';
+					$admin_text_context = basename( dirname( $file ) );
+				}
 
 				if ( isset( $config[ 'wpml-config' ] ) ) {
-
-					//custom-fields
-					if ( isset( $config[ 'wpml-config' ][ 'custom-fields' ][ 'custom-field' ] ) ) {
-						if ( isset( $config[ 'wpml-config' ][ 'custom-fields' ][ 'custom-field' ][ 'value' ] ) ) { //single
-							$config_all[ 'wpml-config' ][ 'custom-fields' ][ 'custom-field' ][ ] = $config[ 'wpml-config' ][ 'custom-fields' ][ 'custom-field' ];
-						} else {
-							foreach ( (array) $config[ 'wpml-config' ][ 'custom-fields' ][ 'custom-field' ] as $cf ) {
-								$config_all[ 'wpml-config' ][ 'custom-fields' ][ 'custom-field' ][ ] = $cf;
-							}
-						}
-					}
-
-					//custom-types
-					if ( isset( $config[ 'wpml-config' ][ 'custom-types' ][ 'custom-type' ] ) ) {
-						if ( isset( $config[ 'wpml-config' ][ 'custom-types' ][ 'custom-type' ][ 'value' ] ) ) { //single
-							$config_all[ 'wpml-config' ][ 'custom-types' ][ 'custom-type' ][ ] = $config[ 'wpml-config' ][ 'custom-types' ][ 'custom-type' ];
-						} else {
-							foreach ( (array) $config[ 'wpml-config' ][ 'custom-types' ][ 'custom-type' ] as $cf ) {
-								$config_all[ 'wpml-config' ][ 'custom-types' ][ 'custom-type' ][ ] = $cf;
-							}
-						}
-					}
-
-					//taxonomies
-					if ( isset( $config[ 'wpml-config' ][ 'taxonomies' ][ 'taxonomy' ] ) ) {
-						if ( isset( $config[ 'wpml-config' ][ 'taxonomies' ][ 'taxonomy' ][ 'value' ] ) ) { //single
-							$config_all[ 'wpml-config' ][ 'taxonomies' ][ 'taxonomy' ][ ] = $config[ 'wpml-config' ][ 'taxonomies' ][ 'taxonomy' ];
-						} else {
-							foreach ( (array) $config[ 'wpml-config' ][ 'taxonomies' ][ 'taxonomy' ] as $cf ) {
-								$config_all[ 'wpml-config' ][ 'taxonomies' ][ 'taxonomy' ][ ] = $cf;
-							}
-						}
-					}
-
+                    $wpml_config     = $config[ 'wpml-config' ];
+                    $wpml_config_all = $config_all[ 'wpml-config' ];
+                    $wpml_config_all = self::parse_config_index($wpml_config_all, $wpml_config, 'custom-field', 'custom-fields');
+					$wpml_config_all = self::parse_config_index($wpml_config_all, $wpml_config, 'custom-type', 'custom-types');
+                    $wpml_config_all = self::parse_config_index($wpml_config_all, $wpml_config, 'taxonomy', 'taxonomies');
 					//admin-texts
-					if ( isset( $config[ 'wpml-config' ][ 'admin-texts' ][ 'key' ] ) ) {
-						if ( ! is_numeric( key( @current( $config[ 'wpml-config' ][ 'admin-texts' ] ) ) ) ) { //single
-							$config[ 'wpml-config' ][ 'admin-texts' ][ 'key' ][ 'type' ]    = $type;
-							$config[ 'wpml-config' ][ 'admin-texts' ][ 'key' ][ 'context' ] = $admin_text_context;
-							$config_all[ 'wpml-config' ][ 'admin-texts' ][ 'key' ][ ]       = $config[ 'wpml-config' ][ 'admin-texts' ][ 'key' ];
+					if ( isset( $wpml_config[ 'admin-texts' ][ 'key' ] ) ) {
+						if ( ! is_numeric( key( @current( $wpml_config[ 'admin-texts' ] ) ) ) ) { //single
+							$wpml_config[ 'admin-texts' ][ 'key' ][ 'type' ]    = $type;
+							$wpml_config[ 'admin-texts' ][ 'key' ][ 'context' ] = $admin_text_context;
+							$wpml_config_all[ 'admin-texts' ][ 'key' ][ ]       = $wpml_config[ 'admin-texts' ][ 'key' ];
 						} else {
-							foreach ( (array) $config[ 'wpml-config' ][ 'admin-texts' ][ 'key' ] as $cf ) {
+							foreach ( (array) $wpml_config[ 'admin-texts' ][ 'key' ] as $cf ) {
 								$cf[ 'type' ]                                             = $type;
 								$cf[ 'context' ]                                          = $admin_text_context;
-								$config_all[ 'wpml-config' ][ 'admin-texts' ][ 'key' ][ ] = $cf;
+								$wpml_config_all[ 'admin-texts' ][ 'key' ][ ] = $cf;
 							}
 						}
 					}
 
 					//language-switcher-settings
-					if ( isset( $config[ 'wpml-config' ][ 'language-switcher-settings' ][ 'key' ] ) ) {
-						if ( !is_numeric( key( $config[ 'wpml-config' ][ 'language-switcher-settings' ][ 'key' ] ) ) ) { //single
-							$config_all[ 'wpml-config' ][ 'language-switcher-settings' ][ 'key' ][ ] = $config[ 'wpml-config' ][ 'language-switcher-settings' ][ 'key' ];
+					if ( isset( $wpml_config[ 'language-switcher-settings' ][ 'key' ] ) ) {
+						if ( !is_numeric( key( $wpml_config[ 'language-switcher-settings' ][ 'key' ] ) ) ) { //single
+							$wpml_config_all[ 'language-switcher-settings' ][ 'key' ][ ] = $wpml_config[ 'language-switcher-settings' ][ 'key' ];
 						} else {
-							foreach ( $config[ 'wpml-config' ][ 'language-switcher-settings' ][ 'key' ] as $cf ) {
-								$config_all[ 'wpml-config' ][ 'language-switcher-settings' ][ 'key' ][ ] = $cf;
+							foreach ( $wpml_config[ 'language-switcher-settings' ][ 'key' ] as $cf ) {
+								$wpml_config_all[ 'language-switcher-settings' ][ 'key' ][ ] = $cf;
 							}
 						}
 					}
+                    $config_all[ 'wpml-config' ] = $wpml_config_all;
 				}
 			}
 
 			$config_all = apply_filters( 'icl_wpml_config_array', $config_all );
+			$config_all = apply_filters( 'wpml_config_array', $config_all );
 
 			self::parse_wpml_config( $config_all );
 		}
 	}
 
-	static function load_config_post_process()
+    private static function parse_config_index( $config_all, $wpml_config, $index_sing, $index_plur ) {
+        if ( isset( $wpml_config[ $index_plur ][ $index_sing ] ) ) {
+            if ( isset( $wpml_config[ $index_plur ][ $index_sing ][ 'value' ] ) ) { //single
+                $config_all[ $index_plur ][ $index_sing ][ ] = $wpml_config[ $index_plur ][ $index_sing ];
+            } else {
+                foreach ( (array) $wpml_config[ $index_plur ][ $index_sing ] as $cf ) {
+                    $config_all[ $index_plur ][ $index_sing ][ ] = $cf;
+                }
+            }
+        }
+
+        return $config_all;
+    }
+
+    static function load_config_post_process()
 	{
 		global $iclTranslationManagement;
 
@@ -324,21 +333,19 @@ class WPML_Config
 			$iclTranslationManagement->save_settings();
 		}
 
-
 	}
 
-	static function parse_wpml_config( $config )
-	{
+	static function parse_wpml_config( $config ) {
 		global $sitepress, $sitepress_settings, $iclTranslationManagement;
 
 		// custom fields
 		self::parse_custom_fields( $config );
 
 		// custom types
-		self::parse_custom_types( $config );
+		self::update_tm_settings( $config, 'custom-type', 'custom-types' );
 
 		// taxonomies
-		self::parse_taxonomies( $config );
+		self::update_tm_settings( $config, 'taxonomy', 'taxonomies' );
 
 		// admin texts
 		self::parse_admin_texts( $config );
@@ -352,7 +359,7 @@ class WPML_Config
 				} else {
 					$cfgsettings = $config[ 'wpml-config' ][ 'language-switcher-settings' ][ 'key' ];
 				}
-				$iclsettings = $iclTranslationManagement->_read_settings_recursive( $cfgsettings );
+				$iclsettings = $iclTranslationManagement->read_settings_recursive( $cfgsettings );
 
 				$iclsettings[ 'language_selector_initialized' ] = 1;
 
@@ -388,129 +395,109 @@ class WPML_Config
 					$action = 0;
 				}
 				$iclTranslationManagement->settings[ 'custom_fields_translation' ][ $c[ 'value' ] ] = $action;
-				if (isset($iclTranslationManagement->settings[ 'custom_fields_readonly_config' ]) && is_array( $iclTranslationManagement->settings[ 'custom_fields_readonly_config' ] ) && !in_array( $c[ 'value' ], $iclTranslationManagement->settings[ 'custom_fields_readonly_config' ] ) ) {
+				$custom_fields_readonly_config_set = isset( $iclTranslationManagement->settings[ 'custom_fields_readonly_config' ] ) && is_array( $iclTranslationManagement->settings[ 'custom_fields_readonly_config' ] );
+				if(!$custom_fields_readonly_config_set) {
+					$iclTranslationManagement->settings[ 'custom_fields_readonly_config' ] = array();
+				}
+				if ( !in_array( $c[ 'value' ], $iclTranslationManagement->settings[ 'custom_fields_readonly_config' ] ) ) {
 					$iclTranslationManagement->settings[ 'custom_fields_readonly_config' ][ ] = $c[ 'value' ];
 				}
-
 			}
 		}
-
 	}
 
-	/**
-	 * @param $config
-	 *
-	 * @return array
-	 */
-	protected static function parse_custom_types( $config )
-	{
+	private static function sync_settings( $config, $section_singular, $section_plural, $read_only_section ) {
 		global $sitepress, $iclTranslationManagement;
-		$cf = array();
-		$custom_posts_sync_option = array();
 
-		if ( !empty( $config[ 'wpml-config' ][ 'custom-types' ] ) ) {
-			if ( !is_numeric( key( current( $config[ 'wpml-config' ][ 'custom-types' ] ) ) ) ) {
-				$cf[ 0 ] = $config[ 'wpml-config' ][ 'custom-types' ][ 'custom-type' ];
+		if ( ! empty( $config[ 'wpml-config' ][ $section_plural ] ) ) {
+			$sync_index  = $section_plural . '_sync_option';
+			$sync_option = $sitepress->get_setting( $sync_index, array() );
+			if ( ! is_numeric( key( current( $config[ 'wpml-config' ][ $section_plural ] ) ) ) ) {
+				$cf[ 0 ] = $config[ 'wpml-config' ][ $section_plural ][ $section_singular ];
 			} else {
-				$cf = $config[ 'wpml-config' ][ 'custom-types' ][ 'custom-type' ];
+				$cf = $config[ 'wpml-config' ][ $section_plural ][ $section_singular ];
 			}
 
 			foreach ( $cf as $c ) {
-
-				$translate = intval( $c[ 'attr' ][ 'translate' ] );
-				$iclTranslationManagement->settings[ 'custom_types_readonly_config' ][ $c[ 'value' ] ]	= $translate;
-				$custom_posts_sync_option[ 'custom_posts_sync_option' ][ $c[ 'value' ] ]				= $translate;
-
-				if ( $translate == 1) {
-					$sitepress->verify_post_translations( $c[ 'value' ] );
-					$iclTranslationManagement->save_settings();
-				}
-
-			}
-
-			$sitepress->save_settings( $custom_posts_sync_option );
-
-			// add_filter( 'get_translatable_documents', array( $iclTranslationManagement, '_override_get_translatable_documents' ) );
-		}
-
-
-		// custom post types - check what's been removed
-		if ( !empty( $iclTranslationManagement->settings[ 'custom_types_readonly_config' ] ) ) {
-			$config_values = array();
-			foreach ( $cf as $config_value ) {
-				$config_values[ $config_value[ 'value' ] ] = $config_value[ 'attr' ][ 'translate' ];
-			}
-			$do_save = false;
-			foreach ( $iclTranslationManagement->settings[ 'custom_types_readonly_config' ] as $tconf => $tconf_val ) {
-				if ( !isset( $config_values[ $tconf ] ) ) {
-					unset( $iclTranslationManagement->settings[ 'custom_types_readonly_config' ][ $tconf ] );
-					$do_save = true;
-				}
-			}
-			if ( $do_save ) {
-				$iclTranslationManagement->save_settings();
-			}
-		}
-
-
-
-	}
-
-	/**
-	 * @param $config
-	 *
-	 * @return array
-	 */
-	protected static function parse_taxonomies( $config ) {
-		global $sitepress, $iclTranslationManagement;
-
-		$cf                     = array();
-		$taxonomies_sync_option = $sitepress->get_setting( 'taxonomies_sync_option', array() );
-
-		if ( !empty( $config[ 'wpml-config' ][ 'taxonomies' ] ) ) {
-			if ( !is_numeric( key( current( $config[ 'wpml-config' ][ 'taxonomies' ] ) ) ) ) {
-				$cf[ 0 ] = $config[ 'wpml-config' ][ 'taxonomies' ][ 'taxonomy' ];
-			} else {
-				$cf = $config[ 'wpml-config' ][ 'taxonomies' ][ 'taxonomy' ];
-			}
-
-			foreach ( $cf as $c ) {
-				$sync_existing_setting = isset( $taxonomies_sync_option[ $c[ 'value' ] ] ) ? $taxonomies_sync_option[ $c[ 'value' ] ] : false;
-				$translate                                                                           = intval( $c[ 'attr' ][ 'translate' ] );
-				$iclTranslationManagement->settings[ 'taxonomies_readonly_config' ][ $c[ 'value' ] ] = $translate;
-				$taxonomies_sync_option[ $c[ 'value' ] ]                                             = $translate;
+				$sync_existing_setting                                                     = isset( $sync_option[ $c[ 'value' ] ] )
+					? $sync_option[ $c[ 'value' ] ] : false;
+				$translate                                                                 = intval( $c[ 'attr' ][ 'translate' ] );
+				$iclTranslationManagement->settings[ $read_only_section ][ $c[ 'value' ] ] = $translate;
+				$sync_option[ $c[ 'value' ] ]                                              = $translate;
 
 				// this has just changed. save.
-				if ( $translate == 1 && !$sync_existing_setting ) {
-					$sitepress->verify_taxonomy_translations( $c[ 'value' ] );
+				if ( $translate && $translate != $sync_existing_setting ) {
+					if ( $section_plural === 'taxonomies' ) {
+						$sitepress->verify_taxonomy_translations( $c[ 'value' ] );
+					} else {
+						$sitepress->verify_post_translations( $c[ 'value' ] );
+					}
 					$iclTranslationManagement->save_settings();
 				}
 			}
 
-			$sitepress->set_setting( '$taxonomies_sync_option', $taxonomies_sync_option );
-
-			add_filter(
-				'get_translatable_taxonomies',
-				array( $iclTranslationManagement, '_override_get_translatable_taxonomies' )
-			);
+			$sitepress->set_setting( $sync_index, $sync_option );
+			self::maybe_add_filter( $section_plural );
 		}
+	}
 
-		// taxonomies - check what's been removed
-		if ( !empty( $iclTranslationManagement->settings[ 'taxonomies_readonly_config' ] ) ) {
-			$config_values = array();
-			foreach ( $cf as $config_value ) {
-				$config_values[ $config_value[ 'value' ] ] = $config_value[ 'attr' ][ 'translate' ];
-			}
-			$do_save = false;
-			foreach ( $iclTranslationManagement->settings[ 'taxonomies_readonly_config' ] as $tconf => $tconf_val ) {
-				if ( !isset( $config_values[ $tconf ] ) ) {
-					unset( $iclTranslationManagement->settings[ 'taxonomies_readonly_config' ][ $tconf ] );
-					$do_save = true;
+	private static function maybe_add_filter( $config_type ) {
+		global $wpml_settings_helper;
+
+		wpml_load_settings_helper();
+
+		if ( $config_type === 'taxonomies' ) {
+			add_filter( 'get_translatable_taxonomies',
+						array( $wpml_settings_helper, '_override_get_translatable_taxonomies' ) );
+		} elseif ( $config_type === 'custom-types' ) {
+			add_filter( 'get_translatable_documents',
+						array( $wpml_settings_helper, '_override_get_translatable_documents' ) );
+		}
+	}
+
+	public static function get_custom_fields_translation_settings($translation_actions = array(0)) {
+		$iclTranslationManagement = wpml_load_core_tm ();
+		$section          = 'custom_fields_translation';
+
+		$result = array();
+		$tm_settings = $iclTranslationManagement->settings;
+		if(isset( $tm_settings[ $section ])) {
+
+			foreach ( $tm_settings[ $section ] as $meta_key => $translation_type ) {
+				if ( in_array($translation_type, $translation_actions) ) {
+					$result[] = $meta_key;
 				}
 			}
-			if ( $do_save ) {
-				$iclTranslationManagement->save_settings();
+		}
+
+		return $result;
+	}
+
+	private static function update_tm_settings( $config, $section_singular, $section_plural ) {
+
+		$config[ 'wpml-config' ] = array_filter ( $config[ 'wpml-config' ] );
+		if ( !isset( $config[ 'wpml-config' ][ $section_plural ] )
+		     || !isset( $config[ 'wpml-config' ][ $section_plural ][ $section_singular ] ) ) {
+			return false;
+		}
+
+		$iclTranslationManagement = wpml_load_core_tm ();
+		$read_only_section          = $section_plural . '_readonly_config';
+		self::sync_settings ( $config, $section_singular, $section_plural, $read_only_section );
+
+		// taxonomies - check what's been removed
+		if ( !empty( $iclTranslationManagement->settings[ $read_only_section ] ) ) {
+			$config_values           = array();
+			foreach ( $config[ 'wpml-config' ][ $section_plural ][ $section_singular ] as $config_value ) {
+				$config_values[ $config_value[ 'value' ] ] = $config_value[ 'attr' ][ 'translate' ];
 			}
+			foreach ( $iclTranslationManagement->settings[ $read_only_section ] as $key => $translation_option ) {
+				if ( !isset( $config_values[ $key ] ) ) {
+					unset( $iclTranslationManagement->settings[ $read_only_section ][ $key ] );
+				}
+			}
+
+			$iclTranslationManagement->save_settings ();
 		}
 	}
 
@@ -521,139 +508,10 @@ class WPML_Config
 	 */
 	protected static function parse_admin_texts( $config )
 	{
-		global $iclTranslationManagement;
-
-		if ( function_exists( 'icl_register_string' ) ) {
-			$admin_texts = array();
-			if ( !empty( $config[ 'wpml-config' ][ 'admin-texts' ] ) ) {
-
-				if ( !is_numeric( key( @current( $config[ 'wpml-config' ][ 'admin-texts' ] ) ) ) ) {
-					$admin_texts[ 0 ] = $config[ 'wpml-config' ][ 'admin-texts' ][ 'key' ];
-				} else {
-					$admin_texts = $config[ 'wpml-config' ][ 'admin-texts' ][ 'key' ];
-				}
-
-				$type               = 'plugin';
-				$admin_text_context = '';
-
-				foreach ( $admin_texts as $a ) {
-
-					if ( isset( $a[ 'type' ] ) ) {
-						$type = $a[ 'type' ];
-					}
-					if ( isset( $a[ 'context' ] ) ) {
-						$admin_text_context = $a[ 'context' ];
-					}
-					if ( !isset( $type ) ) {
-						$type = 'plugin';
-					}
-					if ( !isset( $admin_text_context ) ) {
-						$admin_text_context = '';
-					}
-
-					$keys = array();
-					if ( !isset( $a[ 'key' ]) ) {
-						$arr[ $a[ 'attr' ][ 'name' ] ] = 1;
-						$arr_context[ $a[ 'attr' ][ 'name' ] ] = $admin_text_context;
-						$arr_type[ $a[ 'attr' ][ 'name' ] ] = $type;
-						continue;
-					} elseif ( !is_numeric( key( $a[ 'key' ] ) ) ) {
-						$keys[ 0 ] = $a[ 'key' ];
-					} else {
-						$keys = $a[ 'key' ];
-					}
-
-					foreach ( $keys as $key ) {
-						if ( isset( $key[ 'key' ] ) ) {
-							$arr[ $a[ 'attr' ][ 'name' ] ][ $key[ 'attr' ][ 'name' ] ] = self::read_admin_texts_recursive( $key[ 'key' ], $admin_text_context, $type, $arr_context, $arr_type );
-						} else {
-							$arr[ $a[ 'attr' ][ 'name' ] ][ $key[ 'attr' ][ 'name' ] ] = 1;
-						}
-						$arr_context[ $a[ 'attr' ][ 'name' ] ] = $admin_text_context;
-						$arr_type[ $a[ 'attr' ][ 'name' ] ] = $type;
-					}
-				}
-
-				if ( isset( $arr ) ) {
-					$iclTranslationManagement->admin_texts_to_translate = array_merge( $iclTranslationManagement->admin_texts_to_translate, $arr );
-				}
-
-				$_icl_admin_option_names = get_option( '_icl_admin_option_names' );
-
-				$arr_options = array();
-				if ( isset( $arr ) && is_array( $arr ) ) {
-					foreach ( $arr as $key => $v ) {
-						remove_filter( 'option_' . $key, 'icl_st_translate_admin_string' ); // dont try to translate this one below
-						$value = get_option( $key );
-						add_filter( 'option_' . $key, 'icl_st_translate_admin_string' ); // put the filter back on
-
-						$value = maybe_unserialize( $value );
-						$admin_text_context  = isset($arr_context[$key]) ? $arr_context[$key] : '';
-						$type = isset($arr_type[$key]) ? $arr_type[$key] : '';
-
-						if ( false === $value ) {
-
-							// wildcard? register all matching options in wp_options
-							global $wpdb;
-							$src     = str_replace( '*', '%', wpml_like_escape( $key ) );
-							$matches = $wpdb->get_results( "SELECT option_name, option_value FROM {$wpdb->options} WHERE option_name LIKE '{$src}'" );
-							foreach ( $matches as $match ) {
-								icl_register_string( 'admin_texts_' . $type . '_' . $admin_text_context, $match->option_name, $match->option_value );
-
-								$_icl_admin_option_names[ $type ][ $admin_text_context ][ ] = $match->option_name;
-							}
-							unset( $arr[ $key ] );
-
-						}
-						if ( is_scalar( $value ) ) {
-							icl_register_string( 'admin_texts_' . $type . '_' . $admin_text_context, $key, $value );
-						} else {
-							if ( is_object( $value ) ) {
-								$value = (array)$value;
-							}
-							if ( !empty( $value ) ) {
-								$iclTranslationManagement->_register_string_recursive( $key, $value, $arr[ $key ], '', $type . '_' . $admin_text_context );
-							}
-						}
-						$arr_options[$type][$admin_text_context][$key] = $v;
-					}
-
-					if(is_array($_icl_admin_option_names)) {
-						$_icl_admin_option_names = @array_merge( (array)$_icl_admin_option_names, $arr_options );
-					} else {
-						$_icl_admin_option_names = $arr_options ;
-					}
-				}
-
-				//$_icl_admin_option_names[ $type ][ $admin_text_context ] = __array_unique_recursive( $_icl_admin_option_names[ $type ][ $admin_text_context ] );
-
-				update_option( '_icl_admin_option_names', $_icl_admin_option_names );
-
-			}
+		if (class_exists('WPML_Admin_Texts')) {
+			$wpml_admin_text = WPML_Admin_Texts::get_instance();
+			$wpml_admin_text->parse_config ( $config );
 		}
 
-	}
-
-	private static function read_admin_texts_recursive( $keys, $admin_text_context, $type, &$arr_context, &$arr_type )
-	{
-		if ( !is_numeric( key( $keys ) ) ) {
-			$_keys = array( $keys );
-			$keys  = $_keys;
-			unset( $_keys );
-		}
-		$arr = false;
-		if ( $keys ) {
-			foreach ( $keys as $key ) {
-				if ( isset( $key[ 'key' ] ) ) {
-					$arr[ $key[ 'attr' ][ 'name' ] ] = self::read_admin_texts_recursive( $key[ 'key' ], $admin_text_context, $type, $arr_context, $arr_type );
-				} else {
-					$arr[ $key[ 'attr' ][ 'name' ] ] = 1;
-					$arr_context[ $key[ 'attr' ][ 'name' ] ] = $admin_text_context;
-					$arr_type[ $key[ 'attr' ][ 'name' ] ] = $type;
-				}
-			}
-		}
-
-		return $arr;
 	}
 }

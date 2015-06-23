@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * @since 3.1.8.4
+ *
+ * Class WPML_Term_Language_Synchronization
+ *
+ * @package    wpml-core
+ * @subpackage taxonomy-term-translation
+ */
+
 	class WPML_Term_Language_Synchronization {
 
 		private $taxonomy;
@@ -211,19 +220,27 @@
 						AND ip.element_type = CONCAT('post_', p.post_type)
 						AND ip.element_id = p.ID
 						AND o.object_id = p.ID
-						AND iw.element_type = %s", 'tax_' . $this->taxonomy );
+						AND o.term_taxonomy_id != ic.element_id
+						AND iw.element_type = %s",
+				'tax_' . $this->taxonomy
+			);
 
-			$wpdb->query( $update_query );
+			$rows_affected = $wpdb->query( $update_query );
 
-			$term_ids = $wpdb->get_col(
-				$wpdb->prepare(
-					"SELECT term_taxonomy_id FROM {$wpdb->term_taxonomy} WHERE taxonomy = %s"
-					, $this->taxonomy ) );
+			if ( $rows_affected ) {
+				$term_ids = $wpdb->get_col(
+					$wpdb->prepare(
+						"SELECT term_taxonomy_id FROM {$wpdb->term_taxonomy} WHERE taxonomy = %s"
+						,
+						$this->taxonomy
+					)
+				);
 
-			// Do not run the count update on taxonomies that are not actually registered as proper taxonomy objects, e.g. WooCommerce Product Attributes.
-			$taxonomy_object = get_taxonomy( $this->taxonomy );
-			if ( $taxonomy_object && isset( $taxonomy_object->object_type ) ) {
-				wp_update_term_count( $term_ids, $this->taxonomy );
+				// Do not run the count update on taxonomies that are not actually registered as proper taxonomy objects, e.g. WooCommerce Product Attributes.
+				$taxonomy_object = get_taxonomy( $this->taxonomy );
+				if ( $taxonomy_object && isset( $taxonomy_object->object_type ) ) {
+					wp_update_term_count( $term_ids, $this->taxonomy );
+				}
 			}
 		}
 
@@ -263,11 +280,7 @@
 			$default_language = $sitepress->get_default_language();
 
 			foreach ( $element_ids as $id ) {
-
 				$sitepress->set_element_language_details( $id, 'tax_' . $taxonomy, false, $default_language );
 			}
 		}
-
-
-
 	}

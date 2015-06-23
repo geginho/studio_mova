@@ -51,53 +51,45 @@ class WPML_ST_MO_Downloader{
 		}
 		
 	}
-    
-    function updates_check($args = array()){
-        global $wp_version, $sitepress;
-        $wpversion = preg_replace('#-(.+)$#', '', $wp_version);
-        
-        $defaults = array(
-            'trigger' => 'manual'
-        );
-        extract($defaults);
-        extract($args, EXTR_OVERWRITE);
-        
-        $active_languages = $sitepress->get_active_languages();
-        $default_language = $sitepress->get_default_language();
 
-        $this->load_xml();        
-        $this->get_translation_files();
-        
-        $updates = array();
-        
-        foreach($active_languages as $language){
-            if($language != $default_language){
-                
-                if(isset($this->translation_files[$language['code']])){
-                    foreach($this->translation_files[$language['code']] as $project => $info){
-                        
-                        $this->settings['translations'][$language['code']][$project]['available'] = $info['signature'];
-                        if(empty($this->settings['translations'][$language['code']][$project]['installed']) || 
-                            isset($this->translation_files[$language['code']][$project]['available']) && 
-                            $this->settings['translations'][$language['code']][$project]['installed'] != $this->translation_files[$language['code']][$project]['available']){
-                                $updates['languages'][$language['code']][$project] = $this->settings['translations'][$language['code']][$project]['available'];    
-                            }
-                    }
-                }
-                
-            }
-            
-        }
-        
-        $this->settings['wp_version'] = $wpversion;
-        
-        $this->settings['last_time_xml_check'] = time();
-        $this->settings['last_time_xml_check_trigger'] = $trigger;
-        $this->save_settings();
-        
-        return $updates;
-        
-    }
+	function updates_check( $args = array() ) {
+		global $wp_version, $sitepress;
+
+		$wpversion = preg_replace( '#-(.+)$#', '', $wp_version );
+		$trigger   = 'manual';
+		extract( $args, EXTR_OVERWRITE );
+
+		$active_languages = $sitepress->get_active_languages();
+		$default_language = $sitepress->get_default_language();
+		$this->load_xml();
+		$this->get_translation_files();
+		$updates = array();
+
+		foreach ( $active_languages as $language ) {
+			if ( $language != $default_language ) {
+				if ( isset( $this->translation_files[ $language[ 'code' ] ] ) ) {
+					foreach ( $this->translation_files[ $language[ 'code' ] ] as $project => $info ) {
+						$this->settings[ 'translations' ][ $language[ 'code' ] ][ $project ][ 'available' ] = $info[ 'signature' ];
+						if ( empty( $this->settings[ 'translations' ][ $language[ 'code' ] ][ $project ][ 'installed' ] ) ||
+						     isset( $this->translation_files[ $language[ 'code' ] ][ $project ][ 'available' ] ) &&
+						     $this->settings[ 'translations' ][ $language[ 'code' ] ][ $project ][ 'installed' ] != $this->translation_files[ $language[ 'code' ] ][ $project ][ 'available' ]
+						) {
+							$updates[ 'languages' ][ $language[ 'code' ] ][ $project ] = $this->settings[ 'translations' ][ $language[ 'code' ] ][ $project ][ 'available' ];
+						}
+					}
+				}
+
+			}
+		}
+
+		$this->settings[ 'wp_version' ] = $wpversion;
+		$this->settings[ 'last_time_xml_check' ]         = time();
+		$this->settings[ 'last_time_xml_check_trigger' ] = $trigger;
+		$this->save_settings();
+
+		return $updates;
+
+	}
     
     function show_updates(){
         global $sitepress;
@@ -267,15 +259,13 @@ class WPML_ST_MO_Downloader{
         }
         
         return $mo_files;
-        
     }
     
     function get_translation_files(){
         global $sitepress;
         
         $active_languages = $sitepress->get_active_languages();
-        $default_language = $sitepress->get_default_language();
-        
+
         foreach($active_languages as $language){            
             $locale = $sitepress->get_locale($language['code']);
             if(!isset($this->lang_map[$locale])) continue;
@@ -286,23 +276,17 @@ class WPML_ST_MO_Downloader{
             if(!empty($urls)){
                 $this->translation_files[$language['code']] = $urls;    
             }
-            
         }
                 
         return $this->translation_files;
-        
     }
     
     function get_translations($language, $args = array()){
         global $wpdb;
+
         $translations = array();
+	    $types  = array('core');
         
-        // defaults
-        $defaults = array(
-            'types'      => array('core')
-        );
-        
-        extract($defaults);
         extract($args, EXTR_OVERWRITE);
 
         if(!class_exists('WP_Http')) include_once ABSPATH . WPINC . '/class-http.php';
@@ -335,7 +319,7 @@ class WPML_ST_MO_Downloader{
                     $tpairs[] = array(
                         'string'        => $v->singular, 
                         'translation'   => $v->translations[0],
-                        'name'          => !empty($v->context) ? $v->context . ': ' . $v->singular : md5($v->singular)
+                        'name'          => !empty($v->context) ? $this->generate_name_with_context( $v->context,  $v->singular) : md5($v->singular)
                     );
                     
                     if($v->is_plural){
@@ -343,7 +327,7 @@ class WPML_ST_MO_Downloader{
                         $tpairs[] = array(
                             'string'        => $v->plural, 
                             'translation'   => !empty($v->translations[1]) ? $v->translations[1] : $v->translations[0],
-                            'name'          => !empty($v->context) ? $v->context . ': ' . $v->plural : md5($v->singular)
+                            'name'          => !empty($v->context) ? $this->generate_name_with_context( $v->context, $v->plural) : md5($v->plural)
                         );
                     }
                     
@@ -394,7 +378,7 @@ class WPML_ST_MO_Downloader{
         foreach($data as $key => $string){
             $string_id = icl_register_string(self::CONTEXT, $string['name'], $string['string']);
             if($string_id){
-                icl_add_string_translation($string_id, $language, $string['translation'], ICL_STRING_TRANSLATION_COMPLETE);
+                icl_add_string_translation($string_id, $language, $string['translation'], ICL_TM_COMPLETE);
             }
         }    
         
@@ -409,6 +393,18 @@ class WPML_ST_MO_Downloader{
         $this->save_settings();
         
     }
+
+	private function generate_name_with_context( $context, $value ){
+
+		$result = $context . ': ' . $value;
+		// name column is limited to 160 characters
+		if ( strlen( $result )  > 160 ) {
+			// 160 - 32 (md5) - 3 (brackets for md5)
+			$result = substr( $context, 0, 125 ) . ' (' . md5( $value ).')';
+		}
+
+		return $result;
+	}
     
     
 }

@@ -1,3 +1,65 @@
+# 3.2.2
+
+## Fixes
+* `Fixed Warning: base64_encode() expects parameter 1 to be string, array given`
+
+## New
+* Updated dependency check module
+
+# 3.2.1
+
+## Fixes
+* `do_action( 'wpml_add_language_selector' );` now properly echoes the language switcher
+* Resolved a dependency issue: `Fatal error: Class 'WPML_Post_Translation' not found`
+
+# 3.2
+
+## New
+* Support for Translation Proxy
+* Now it is possible to select the preferred admin language among all available languages and not only active languages
+* Functionality has been added to block the translation of already translated taxonomy terms through the translation management functionality
+
+## Fixes
+* Fixed position of radio buttons dedicated to change default language
+* Fixed some PHP notices and warnings
+* Performance improvements when loading menus
+* Fixed errors from hide-able admin message boxes.
+* Restyled admin message boxes.
+* Fixed errors in reading wpml-config.xml file.
+* Fixed wrongful inclusion of the taxonomy translation JavaScript that was causing notices and performance losses in the back-end
+* Fixed an issue leading to taxonomies not being copied to translated posts, despite the option for it having been set
+* Settings information moved from Troubleshooting page to Debug information page
+* Fixed "Reset languages" option
+* Added fallback function for `array_replace_recursive()`, which might be unavailable in old versions of PHP
+* Fixed Directory for default language and root page/HTML file as root problems
+* Fixed language order setting not working due to Javascript errors
+* Fixed default category translation by removing language suffix in category name
+* Fixed post/page title display when many languages are active
+* Fixed different problems with menu creation and synchronization
+* Fixed scheduled post translations from being automatically published
+* Fixed taxonomy label translation from Taxonomy Translation screen
+* Fixed wrong page redirection when 2 child pages use the same slug
+* Fixed ability to have two separate language switcher widgets on the same page when the "Mobile Friendly Always" option is selected
+* Removed trailing slash from ICL_PLUGIN_URL constant
+* Fixed search results url when Language display is set to parameter
+* Fixed post same-slug-across-languages problems
+* Fixed issues related to accessing content of hidden languages
+
+## Compatibility
+* Added wrapper functions for mb string functions
+* Removed usage of deprecated ColorPicker jQuery plugin, replaced with wpColorPicker jQuery plugin
+* Fixed various WP SEO XML sitemap issues
+
+## Improvements
+* Flags column visible for WooCommerce products edit list table
+* Improved taxonomy synchronization between languages
+
+## Performances
+* WPML is getting more and more faster, even when dealing with a lot of content
+
+## API
+* Improved API and created documentation for it in wpml.org
+
 # 3.1.9.7
 
 ## Fixes

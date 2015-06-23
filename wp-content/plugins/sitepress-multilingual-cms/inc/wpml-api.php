@@ -1,5 +1,6 @@
 <?php
-/* This file includes a set of functions that can be used by WP plugin developers to make their plugins interact with WPML */
+/* @todo: [WPML 3.3] check if needed in 3.3 */
+/* This file includes a set of functions that can be used by WP plugins developers to make their plugins interact with WPML */
 
 /* constants */
 define('WPML_API_SUCCESS' , 0);
@@ -202,6 +203,7 @@ function wpml_get_content_trid($content_type, $content_id){
 
 /**
  * Detects the current language and returns the language relevant content id. optionally it can return the original id if a translation is not found
+ * See also wpml_object_id_filter() in \template-functions.php
  *
  * @since 1.3
  * @package WPML
@@ -212,8 +214,8 @@ function wpml_get_content_trid($content_type, $content_id){
  * @param bool $return_original return the original id when translation not found.
  *
  * @return int trid or 0 for error
- *  */
-
+ *  
+ */
 function wpml_get_content($content_type, $content_id, $return_original = true){
     global $sitepress, $wpdb;
 
@@ -328,7 +330,8 @@ function wpml_get_content_translation($content_type, $content_id, $language_code
 }
 
 /**
- *  Returns the list of active languages
+ * Returns the list of active languages
+ * See also wpml_get_active_languages_filter() in \template-functions.php
  *
  * @since 1.3
  * @package WPML
@@ -343,35 +346,7 @@ function wpml_get_active_languages(){
     return $langs;
 }
 
-/**
- *  Returns the default language
- *
- * @since 1.3
- * @package WPML
- * @subpackage WPML API
- *
- *
- * @return string
- *  */
-function wpml_get_default_language(){
-    global $sitepress;
-    return $sitepress->get_default_language();
-}
 
-
-/**
- *  Get current language
- *
- * @since 1.3
- * @package WPML
- * @subpackage WPML API
- *
- * @return string
- *  */
-function wpml_get_current_language(){
-    global $sitepress;
-    return $sitepress->get_current_language();
-}
 
 /**
  *  Get contents of a specific type
@@ -403,6 +378,7 @@ function wpml_get_contents($content_type, $language_code = false){
                                                 WHERE element_type = %s AND language_code = %s",
                                                 $content_type, $language_code ) );
     return $contents;
+
 }
 
 /**
@@ -423,9 +399,6 @@ function wpml_get_contents($content_type, $language_code = false){
 function wpml_send_content_to_translation($string, $content_id, $content_type, $from_language, $to_language){
     global $sitepress, $sitepress_settings, $wpdb;
 
-    if(!$sitepress->get_icl_translation_enabled()){
-        return 0; //WPML_API_CONTENT_TRANSLATION_DISABLED
-    }
 
     if(!_wpml_api_allowed_content_type($content_type)){
         return 0; //WPML_API_INVALID_CONTENT_TYPE
@@ -506,7 +479,7 @@ function wpml_get_word_count($string, $language = false){
 	$count = 0;
 
     if($language && in_array($language, $asian_languages)){
-        $count = ceil(mb_strlen($string)/WPML_API_MAGIC_NUMBER);
+        $count = ceil(strlen($string)/WPML_API_MAGIC_NUMBER);
     }elseif(is_string($string)){
 		$words = preg_split( '/[\s\/]+/', $string, 0, PREG_SPLIT_NO_EMPTY );
 		$count = count( $words );

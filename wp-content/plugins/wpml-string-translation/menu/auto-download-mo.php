@@ -75,7 +75,7 @@ if(isset($active_languages[$language])){
         <?php foreach($user_messages as $umessage): ?>
         <p><?php echo $umessage ?></p>
         <?php endforeach; ?>    
-        <a href="<?php echo admin_url('admin.php?page=' . ICL_PLUGIN_FOLDER . '/menu/theme-localization.php'); ?>" class="button-secondary"><?php _e('Check other languages') ?></a>
+        <a href="<?php echo admin_url('admin.php?page=' . ICL_PLUGIN_FOLDER . '/menu/theme-localization.php'); ?>" class="button-secondary"><?php _e('Check other languages', 'wpml-string-translation') ?></a>
         
     <?php elseif(!$version): ?>
         <div class="error">
@@ -201,7 +201,7 @@ if(isset($active_languages[$language])){
     <?php else: ?>
     
         <p><?php _e('There is nothing to be updated or to be added.', 'wpml-string-translation') ?></p>
-        <p><a href="<?php echo admin_url('admin.php?page=' . ICL_PLUGIN_FOLDER . '/menu/theme-localization.php'); ?>" class="button-secondary"><?php _e('Check other languages') ?></a></p>
+        <p><a href="<?php echo admin_url('admin.php?page=' . ICL_PLUGIN_FOLDER . '/menu/theme-localization.php'); ?>" class="button-secondary"><?php _e('Check other languages', 'wpml-string-translation') ?></a></p>
     
     <?php endif; ?>
     

@@ -222,7 +222,9 @@ class WPML_Sticky_Links{
                     $found = $wpdb->get_var("SELECT FOUND_ROWS()");                
                     foreach($posts_pages as $p){
                         $cont = $this->show_permalinks($p->post_content);
-                        $wpdb->update($wpdb->posts, array('post_content'=>$cont), array('ID'=>$p->ID));                        
+						if ( $cont != $p->post_content ) {
+							$wpdb->update($wpdb->posts, array('post_content'=>$cont), array('ID'=>$p->ID));
+						}
                         delete_post_meta($p->ID,'_alp_processed');
                         delete_post_meta($p->ID,'_alp_broken_links');
                     }
@@ -509,6 +511,7 @@ class WPML_Sticky_Links{
     function plugin_localization(){
         load_plugin_textdomain( 'wpml-sticky-links', false, WPML_STICKY_LINKS_FOLDER . '/locale');
     }
+	
 }  
 
 global $WPML_Sticky_Links;

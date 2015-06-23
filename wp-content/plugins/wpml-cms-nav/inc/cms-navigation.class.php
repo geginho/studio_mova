@@ -148,11 +148,11 @@ class WPML_CMS_Navigation{
     
     function save_form(){
         global $wpdb;
-
+        
         if ( !wp_verify_nonce( filter_input( INPUT_POST, 'icl_cms_nav_nonce' ), 'icl_cms_nav_nonce' ) ) {
             return false;
         }
-
+        
         $this->settings['page_order'] = $_POST['icl_navigation_page_order'];
         $this->settings['show_cat_menu'] = @intval($_POST['icl_navigation_show_cat_menu']);
         if($_POST['icl_navigation_cat_menu_title']){
@@ -995,10 +995,7 @@ class WPML_CMS_Navigation{
         if(defined('ICL_DONT_LOAD_NAVIGATION_CSS') && ICL_DONT_LOAD_NAVIGATION_CSS){
             return;
         }
-        $path = dirname(substr(__FILE__, strpos(__FILE__,'wp-content')));
-        $path = str_replace('\\','/',$path);
-		$stylesheet = rtrim(get_option('siteurl'),'/') . '/' . $path . '/res';
-        wp_enqueue_style('cms-navigation-style-base', 
+        wp_enqueue_style('cms-navigation-style-base',
             WPML_CMS_NAV_PLUGIN_URL . '/res/css/cms-navigation-base.css', array(), WPML_CMS_NAV_VERSION, 'screen');            
         wp_enqueue_style('cms-navigation-style', 
             WPML_CMS_NAV_PLUGIN_URL . '/res/css/cms-navigation.css', array(), WPML_CMS_NAV_VERSION, 'screen');            

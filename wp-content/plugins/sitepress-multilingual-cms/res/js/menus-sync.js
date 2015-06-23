@@ -67,12 +67,7 @@ function icl_msync_validation(){
                     mnthis.attr('checked', 'checked');
                     mnthis.attr('readonly', 'readonly');
                 }
-                    
             });
-            
-        }    
+        }
     });
-    
-    
-    return;
 }

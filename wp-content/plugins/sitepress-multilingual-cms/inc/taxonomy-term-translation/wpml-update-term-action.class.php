@@ -1,7 +1,12 @@
 <?php
 
 /**
- *  This class holds the functionality for creating or editing a taxonomy term.
+ * Class WPML_Update_Term_Action
+ *
+ * This class holds the functionality for creating or editing a taxonomy term.
+ *
+ * @package    wpml-core
+ * @subpackage taxonomy-term-translation
  */
 class WPML_Update_Term_Action {
 
@@ -85,7 +90,7 @@ class WPML_Update_Term_Action {
 		extract( $args, EXTR_OVERWRITE );
 
 		// We cannot create a term unless we at least know its name
-		if ( $term && $taxonomy ) {
+		if ( (string)$term !== "" && $taxonomy ) {
 			$this->wp_new_term_args[ 'name' ] = $term;
 			$this->taxonomy                   = $taxonomy;
 		} else {
@@ -110,7 +115,7 @@ class WPML_Update_Term_Action {
 		$this->is_valid = $this->set_language_information( $trid, $original_tax_id, $lang_code, $source_language );
 		$this->set_action_type();
 
-		if ( ! $this->is_update || ( $this->is_update && $slug != '' && $slug != $this->old_slug ) ) {
+		if ( ! $this->is_update || ( $this->is_update && $slug != $this->old_slug ) ) {
 
 			if ( trim( $slug ) == '' ) {
 				$slug = sanitize_title( $term );
@@ -119,7 +124,6 @@ class WPML_Update_Term_Action {
 
 			$this->wp_new_term_args[ 'slug' ] = $slug;
 		}
-
 	}
 
 	/**
@@ -131,8 +135,8 @@ class WPML_Update_Term_Action {
 	public function execute() {
 		global $sitepress;
 
-		remove_action( 'create_term', array( $sitepress, 'create_term' ), 1, 2 );
-		remove_action( 'edit_term', array( $sitepress, 'create_term' ), 1, 2 );
+		remove_action( 'create_term', array( $sitepress, 'create_term' ), 1 );
+		remove_action( 'edit_term', array( $sitepress, 'create_term' ), 1 );
 		add_action( 'create_term', array( $this, 'add_term_language_action' ), 1, 3 );
 		$new_term = false;
 
@@ -143,8 +147,8 @@ class WPML_Update_Term_Action {
 				$new_term = wp_insert_term( $this->wp_new_term_args[ 'name' ], $this->taxonomy, $this->wp_new_term_args );
 			}
 		}
-		add_action( 'create_term', array( $sitepress, 'create_term' ), 1, 2 );
-		add_action( 'edit_term', array( $sitepress, 'create_term' ), 1, 2 );
+		add_action( 'create_term', array( $sitepress, 'create_term' ), 1, 3 );
+		add_action( 'edit_term', array( $sitepress, 'create_term' ), 1, 3 );
 		remove_action( 'create_term', array( $this, 'add_term_language_action' ), 1, 3 );
 
 		if ( ! is_array( $new_term ) ) {
@@ -194,7 +198,6 @@ class WPML_Update_Term_Action {
 					}
 				}
 			}
-
 		}
 
 		return true;
@@ -216,8 +219,8 @@ class WPML_Update_Term_Action {
 				// Term update actions need information about the term_id, not the term_taxonomy_id saved in the element_id column of icl_translations.
 				$term = $wpdb->get_row( $wpdb->prepare(
 						"SELECT t.term_id, t.slug FROM {$wpdb->terms} AS t
-															JOIN {$wpdb->term_taxonomy} AS tt ON t.term_id=tt.term_id
-															WHERE term_taxonomy_id=%d", $existing_db_entry->element_id
+						 JOIN {$wpdb->term_taxonomy} AS tt ON t.term_id=tt.term_id
+						 WHERE term_taxonomy_id=%d", $existing_db_entry->element_id
 					)
 				);
 				if ( $term->term_id && $term->slug ) {
