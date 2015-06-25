@@ -22,7 +22,7 @@ define('DB_NAME', 'geromeib_mova-test');
 define('DB_USER', 'geromeib_gerome');
 
 /** Senha do banco de dados MySQL */
-define('DB_PASSWORD', 'rio40graus');
+define('DB_PASSWORD', 'rio40GRAUS');
 
 /** nome do host do MySQL */
 define('DB_HOST', 'localhost');
